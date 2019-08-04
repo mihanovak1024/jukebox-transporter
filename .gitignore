@@ -1,0 +1,14 @@
+localProperties.txt
+
+.svn
+bin
+gen
+*~
+tags
+/local.properties
+.DS_Store
+maven.properties
+*.class
+.idea
+*.iml
+out/
