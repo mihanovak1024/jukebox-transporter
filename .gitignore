@@ -1,6 +1,7 @@
 localProperties.txt
 credentials.json
 
+target/
 .svn
 bin
 gen
