@@ -1,5 +1,6 @@
 localProperties.txt
-credentials.json
+src/main/resources/credentials.json
+tokens/
 
 target/
 .svn
