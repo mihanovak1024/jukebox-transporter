@@ -4,50 +4,49 @@ import java.util.List;
 
 public class GoogleSheetData {
 
-    private GoogleSheetStatus googleSheetStatus;
-    private String artist;
-    private String song;
-    private String youtubeVideoTitle;
-    private String youtubeVideoLink;
-    private List<String> allYoutubeVideoLinks;
+    private final GoogleSheetStatus googleSheetStatus;
+    private final String artist;
+    private final String song;
+    private final String youtubeVideoTitle;
+    private final String youtubeVideoLink;
+    private final String directory;
+    private final List<String> allYoutubeVideoLinks;
+
+    public GoogleSheetData(GoogleSheetStatus googleSheetStatus, String artist, String song, String youtubeVideoTitle, String youtubeVideoLink, String directory, List<String> allYoutubeVideoLinks) {
+        this.googleSheetStatus = googleSheetStatus;
+        this.artist = artist;
+        this.song = song;
+        this.youtubeVideoTitle = youtubeVideoTitle;
+        this.youtubeVideoLink = youtubeVideoLink;
+        this.directory = directory;
+        this.allYoutubeVideoLinks = allYoutubeVideoLinks;
+    }
 
     public GoogleSheetStatus getGoogleSheetStatus() {
         return googleSheetStatus;
-    }
-
-    public void setGoogleSheetStatus(GoogleSheetStatus googleSheetStatus) {
-        this.googleSheetStatus = googleSheetStatus;
     }
 
     public String getArtist() {
         return artist;
     }
 
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
     public String getSong() {
         return song;
-    }
-
-    public void setSong(String song) {
-        this.song = song;
     }
 
     public String getYoutubeVideoTitle() {
         return youtubeVideoTitle;
     }
 
-    public void setYoutubeVideoTitle(String youtubeVideoTitle) {
-        this.youtubeVideoTitle = youtubeVideoTitle;
+    public String getYoutubeVideoLink() {
+        return youtubeVideoLink;
+    }
+
+    public String getDirectory() {
+        return directory;
     }
 
     public List<String> getAllYoutubeVideoLinks() {
         return allYoutubeVideoLinks;
-    }
-
-    public void setAllYoutubeVideoLinks(List<String> allYoutubeVideoLinks) {
-        this.allYoutubeVideoLinks = allYoutubeVideoLinks;
     }
 }
