@@ -52,11 +52,11 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
 
         return new GoogleSheetData(
                 status,
-                changeToNullIfEmpty(artist),
-                changeToNullIfEmpty(song),
-                changeToNullIfEmpty(title),
-                changeToNullIfEmpty(link),
-                changeToNullIfEmpty(directory),
+                artist,
+                song,
+                title,
+                link,
+                directory,
                 allLinkList
         );
     }
