@@ -13,4 +13,13 @@ public enum GoogleSheetStatus {
     GoogleSheetStatus(String sheetStatusName) {
         this.sheetStatusName = sheetStatusName;
     }
+
+    public static GoogleSheetStatus getStatusFromName(String searchingSheetStatusName) {
+        for (GoogleSheetStatus googleSheetStatus : GoogleSheetStatus.values()) {
+            if (googleSheetStatus.sheetStatusName.equals(searchingSheetStatusName)) {
+                return googleSheetStatus;
+            }
+        }
+        throw new GoogleSheetStatusException("No status found for " + searchingSheetStatusName);
+    }
 }
