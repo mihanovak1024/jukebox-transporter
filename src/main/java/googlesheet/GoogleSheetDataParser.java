@@ -24,22 +24,22 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
         if (!isDataOfTypeString(data)) {
             throw new GoogleSheetParserException(GoogleSheetParserException.NOT_OF_TYPE_STRING);
         }
-        List<String> stringData = (List<String>) data;
+        List<String> stringData = replaceEmptyStringsWithNull(data);
 
         if (stringData.size() != GOOGLE_SHEET_NUMBER_OF_COLUMNS) {
             throw new GoogleSheetParserException(GoogleSheetParserException.INCORRECT_COLUMN_SIZE);
         }
 
-        String artist = changeToNullIfEmpty(stringData.get(GOOGLE_SHEET_COLUMN_ARTIST));
-        String song = changeToNullIfEmpty(stringData.get(GOOGLE_SHEET_COLUMN_SONG));
-        String title = changeToNullIfEmpty(stringData.get(GOOGLE_SHEET_COLUMN_TITLE));
-        String link = changeToNullIfEmpty(stringData.get(GOOGLE_SHEET_COLUMN_LINK));
-        String directory = changeToNullIfEmpty(stringData.get(GOOGLE_SHEET_COLUMN_DIRECTORY));
+        String artist = stringData.get(GOOGLE_SHEET_COLUMN_ARTIST);
+        String song = stringData.get(GOOGLE_SHEET_COLUMN_SONG);
+        String title = stringData.get(GOOGLE_SHEET_COLUMN_TITLE);
+        String link = stringData.get(GOOGLE_SHEET_COLUMN_LINK);
+        String directory = stringData.get(GOOGLE_SHEET_COLUMN_DIRECTORY);
 
-        String statusString = changeToNullIfEmpty(stringData.get(GOOGLE_SHEET_COLUMN_STATUS));
+        String statusString = stringData.get(GOOGLE_SHEET_COLUMN_STATUS);
         GoogleSheetStatus status = GoogleSheetStatus.getStatusFromName(statusString);
 
-        String allLinksListString = changeToNullIfEmpty(stringData.get(GOOGLE_SHEET_COLUMN_LINK_LIST));
+        String allLinksListString = stringData.get(GOOGLE_SHEET_COLUMN_LINK_LIST);
         final List<String> allLinkList;
         if (allLinksListString == null) {
             allLinkList = new ArrayList<>();
@@ -70,6 +70,15 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
             }
         }
         return isOfTypeString;
+    }
+
+    private List<String> replaceEmptyStringsWithNull(List<String> stringList) {
+        List<String> newStringList = new ArrayList<>(stringList.size());
+        for (String string : stringList) {
+            String nullOrNonEmptyString = changeToNullIfEmpty(string);
+            newStringList.add(nullOrNonEmptyString);
+        }
+        return newStringList;
     }
 
     private String changeToNullIfEmpty(String string) {
