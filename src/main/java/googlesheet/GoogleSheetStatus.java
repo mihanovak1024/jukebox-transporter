@@ -14,7 +14,7 @@ public enum GoogleSheetStatus {
         this.sheetStatusName = sheetStatusName;
     }
 
-    public static GoogleSheetStatus getStatusFromName(String searchingSheetStatusName) {
+    public static GoogleSheetStatus getStatusFromName(String searchingSheetStatusName) throws RuntimeException {
         for (GoogleSheetStatus googleSheetStatus : GoogleSheetStatus.values()) {
             if (googleSheetStatus.sheetStatusName.equals(searchingSheetStatusName)) {
                 return googleSheetStatus;

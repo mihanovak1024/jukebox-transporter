@@ -2,6 +2,6 @@ package network;
 
 public interface DataParser<T, V> {
 
-    T parseData(V data);
+    T parseData(V data) throws RuntimeException;
 
 }
