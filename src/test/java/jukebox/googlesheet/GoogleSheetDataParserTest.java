@@ -1,10 +1,9 @@
 package jukebox.googlesheet;
 
+import jukebox.BaseTest;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +13,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-@RunWith(value = MockitoJUnitRunner.class)
-public class GoogleSheetDataParserTest {
+public class GoogleSheetDataParserTest extends BaseTest {
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
