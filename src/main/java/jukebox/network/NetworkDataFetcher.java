@@ -1,8 +1,8 @@
 package jukebox.network;
 
-public interface NetworkDataFetcher {
+public interface NetworkDataFetcher<T> {
 
-    <T> void fetchDataAsync(String url, NetworkDataCallback<T> callback);
+    void fetchDataAsync(String url, NetworkDataCallback<T> callback);
 
-    <T> T fetchData(String url);
+    T fetchData(String url);
 }
