@@ -10,7 +10,7 @@ import jukebox.youtube.YoutubeSongData;
 import java.util.List;
 
 public class Main {
-    private static final String LOCAL_PROPERTIES_FILE_NAME = "localProperties.txt";
+    private static final String LOCAL_PROPERTIES_FILE_NAME = "localProperties.json";
 
     private NetworkDataFetcher youtubeSearchDataFetcher;
     private NetworkDataFetcher youtubeSongDataFetcher;
@@ -20,7 +20,7 @@ public class Main {
 
     // TODO: 2019-08-04 create a cron job to start the main() program
     public static void main(String[] args) {
-        // TODO: 2019-08-04 get properties from localProperties.txt
+        // TODO: 2019-08-04 get properties from localProperties.json
 
         new Main();
     }
