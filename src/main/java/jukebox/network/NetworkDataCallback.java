@@ -1,4 +1,4 @@
-package network;
+package jukebox.network;
 
 public interface NetworkDataCallback<T> {
 

@@ -1,4 +1,4 @@
-package youtube;
+package jukebox.youtube;
 
 import java.util.ArrayList;
 import java.util.List;

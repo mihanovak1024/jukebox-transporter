@@ -1,11 +1,11 @@
-import googlesheet.GoogleSheetData;
-import googlesheet.GoogleSheetDataUpdater;
-import googlesheet.GoogleSheetStatus;
-import network.NetworkDataCallback;
-import network.NetworkDataFetcher;
-import youtube.YoutubeSearchData;
-import youtube.YoutubeSearchInfo;
-import youtube.YoutubeSongData;
+package jukebox;
+
+import jukebox.googlesheet.*;
+import jukebox.network.NetworkDataCallback;
+import jukebox.network.NetworkDataFetcher;
+import jukebox.youtube.YoutubeSearchData;
+import jukebox.youtube.YoutubeSearchInfo;
+import jukebox.youtube.YoutubeSongData;
 
 import java.util.List;
 

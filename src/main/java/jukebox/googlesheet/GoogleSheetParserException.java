@@ -1,4 +1,4 @@
-package googlesheet;
+package jukebox.googlesheet;
 
 class GoogleSheetParserException extends RuntimeException {
     static final String NOT_OF_TYPE_STRING = "A value in data list is not of type String.";

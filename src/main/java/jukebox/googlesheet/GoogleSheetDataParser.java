@@ -1,7 +1,7 @@
-package googlesheet;
+package jukebox.googlesheet;
 
 import com.google.common.annotations.VisibleForTesting;
-import network.DataParser;
+import jukebox.network.DataParser;
 
 import java.util.ArrayList;
 import java.util.Arrays;

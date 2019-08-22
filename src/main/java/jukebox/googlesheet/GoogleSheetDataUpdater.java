@@ -1,4 +1,4 @@
-package googlesheet;
+package jukebox.googlesheet;
 
 public interface GoogleSheetDataUpdater {
 

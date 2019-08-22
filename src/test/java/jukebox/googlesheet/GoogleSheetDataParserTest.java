@@ -1,4 +1,4 @@
-package googlesheet;
+package jukebox.googlesheet;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,7 +9,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static googlesheet.GoogleSheetDataParser.*;
+import static jukebox.googlesheet.GoogleSheetDataParser.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;

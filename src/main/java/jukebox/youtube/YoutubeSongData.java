@@ -1,4 +1,4 @@
-package youtube;
+package jukebox.youtube;
 
 public class YoutubeSongData {
 
