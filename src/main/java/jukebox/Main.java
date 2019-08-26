@@ -7,14 +7,20 @@ import jukebox.youtube.YoutubeSearchData;
 import jukebox.youtube.YoutubeSearchInfo;
 import jukebox.youtube.YoutubeSongData;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
     private static final String LOCAL_PROPERTIES_FILE_NAME = "localProperties.json";
+    private static final int EXECUTOR_THREAD_POOL_SIZE = 5;
+
+    private ExecutorService executorService = Executors.newFixedThreadPool(EXECUTOR_THREAD_POOL_SIZE);
 
     private NetworkDataFetcher youtubeSearchDataFetcher;
     private NetworkDataFetcher youtubeSongDataFetcher;
-    private NetworkDataFetcher googleSheetDataFetcher;
+    private NetworkDataFetcher<List<GoogleSheetData>> googleSheetDataFetcher;
 
     private GoogleSheetDataUpdater googleSheetDataUpdater;
 
@@ -26,13 +32,25 @@ public class Main {
     }
 
     private Main() {
-        initComponents();
+        LocalProperties localProperties = readLocalPropertiesFromFile();
 
+        initComponents(localProperties);
         start();
     }
 
-    private void initComponents() {
-        // TODO: 2019-08-04 create network data implementations
+    private LocalProperties readLocalPropertiesFromFile() {
+        try {
+            LocalProperties localProperties = Util.readLocalJSONFileToObject(LOCAL_PROPERTIES_FILE_NAME, LocalProperties.class);
+            return localProperties;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalStateException(String.format("Error while parsing [%s]", LOCAL_PROPERTIES_FILE_NAME), e.getCause());
+        }
+    }
+
+    private void initComponents(LocalProperties localProperties) {
+        GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
+        googleSheetDataFetcher = new GoogleSheetDataFetcher(googleSheetDataParser, localProperties);
     }
 
     // TODO: 2019-08-04 optimize everything (concurrency)
@@ -75,7 +93,7 @@ public class Main {
             public void onFailure(String error) {
                 // TODO: 2019-08-04 retry?
             }
-        });
+        }, executorService);
     }
 
     private void uploadSongToRepository() {
@@ -91,6 +109,6 @@ public class Main {
             public void onFailure(String error) {
                 // TODO: 2019-08-04 retry?
             }
-        });
+        }, executorService);
     }
 }
