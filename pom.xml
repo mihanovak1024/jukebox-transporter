@@ -11,55 +11,68 @@
     <properties>
         <maven.compiler.source>1.9</maven.compiler.source>
         <maven.compiler.target>1.9</maven.compiler.target>
+        <google.api.client>1.23.0</google.api.client>
+        <google.apis>v4-rev516-1.23.0</google.apis>
+        <google.guava>27.1-jre</google.guava>
+        <fasterxml.jackson>2.9.9</fasterxml.jackson>
+        <!-- test versions-->
+        <test.junit>4.12</test.junit>
+        <test.mockito>3.0.0</test.mockito>
+        <test.hamcrest>2.1</test.hamcrest>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.google.api-client</groupId>
             <artifactId>google-api-client</artifactId>
-            <version>1.23.0</version>
+            <version>${google.api.client}</version>
         </dependency>
         <dependency>
             <groupId>com.google.oauth-client</groupId>
             <artifactId>google-oauth-client-jetty</artifactId>
-            <version>1.23.0</version>
+            <version>${google.api.client}</version>
         </dependency>
         <dependency>
             <groupId>com.google.apis</groupId>
             <artifactId>google-api-services-sheets</artifactId>
-            <version>v4-rev516-1.23.0</version>
+            <version>${google.apis}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${google.guava}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.9.9</version>
+            <version>${fasterxml.jackson}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.9.9</version>
+            <version>${fasterxml.jackson}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.9</version>
+            <version>${fasterxml.jackson}</version>
         </dependency>
         <!--   TEST DEPENDENCIES     -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${test.junit}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.0.0</version>
+            <version>${test.mockito}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-core</artifactId>
-            <version>2.1</version>
+            <version>${test.hamcrest}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
