@@ -70,7 +70,7 @@ public class GoogleSheetDataFetcher implements NetworkDataFetcher<List<GoogleShe
         List<GoogleSheetData> googleSheetDataList = null;
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         final String spreadsheetId = localProperties.getSpreadsheetId();
-        final String range = String.format("ActiveList!%s", localProperties.getSpreadsheetRange());
+        final String range = localProperties.getSpreadsheetRange();
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();

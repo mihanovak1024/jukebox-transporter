@@ -34,8 +34,8 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_TITLE, title);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK, link);
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
-        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK_LIST, linkList);
+        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
 
         // when
         GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
@@ -67,8 +67,8 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_TITLE, title);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK, link);
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
-        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK_LIST, linkList);
+        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
 
         // when
         GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
@@ -102,8 +102,8 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_TITLE, title);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK, link);
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
-        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK_LIST, linkList);
+        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
 
         // when
         GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
@@ -139,8 +139,8 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_TITLE, title);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK, link);
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
-        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK_LIST, linkList);
+        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
 
         // when
         GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
@@ -174,8 +174,8 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_TITLE, title);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK, link);
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
-        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK_LIST, linkList);
+        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
 
         exception.expect(GoogleSheetParserException.class);
         exception.expectMessage(GoogleSheetParserException.NOT_OF_TYPE_STRING);
@@ -201,8 +201,8 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_TITLE, title);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK, link);
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
-        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK_LIST, linkList);
+        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
 
         exception.expect(GoogleSheetParserException.class);
         exception.expectMessage(GoogleSheetParserException.NOT_OF_TYPE_STRING);
@@ -229,8 +229,8 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_TITLE, title);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK, link);
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
-        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK_LIST, linkList);
+        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
         dataList.add(extraObject);
 
         exception.expect(GoogleSheetParserException.class);
@@ -257,8 +257,8 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_TITLE, title);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK, link);
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
-        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK_LIST, linkList);
+        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
 
         exception.expect(GoogleSheetParserException.class);
         exception.expectMessage(GoogleSheetParserException.SONG_NULL);
@@ -284,8 +284,8 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_TITLE, title);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK, link);
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
-        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
         dataList.add(GOOGLE_SHEET_COLUMN_LINK_LIST, linkList);
+        dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
 
         exception.expect(GoogleSheetStatusException.class);
 

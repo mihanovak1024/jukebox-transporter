@@ -23,9 +23,9 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
     @VisibleForTesting
     static final int GOOGLE_SHEET_COLUMN_DIRECTORY = 4;
     @VisibleForTesting
-    static final int GOOGLE_SHEET_COLUMN_STATUS = 5;
+    static final int GOOGLE_SHEET_COLUMN_LINK_LIST = 5;
     @VisibleForTesting
-    static final int GOOGLE_SHEET_COLUMN_LINK_LIST = 6;
+    static final int GOOGLE_SHEET_COLUMN_STATUS = 6;
 
     @Override
     public GoogleSheetData parseData(List data) throws RuntimeException {
