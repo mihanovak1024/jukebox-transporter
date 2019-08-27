@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
-    private static final String LOCAL_PROPERTIES_FILE_NAME = "localProperties.json";
+    private static final String LOCAL_PROPERTIES_FILE_NAME = "/localProperties.json";
     private static final int EXECUTOR_THREAD_POOL_SIZE = 5;
 
     private ExecutorService executorService = Executors.newFixedThreadPool(EXECUTOR_THREAD_POOL_SIZE);
@@ -26,8 +26,6 @@ public class Main {
 
     // TODO: 2019-08-04 create a cron job to start the main() program
     public static void main(String[] args) {
-        // TODO: 2019-08-04 get properties from localProperties.json
-
         new Main();
     }
 

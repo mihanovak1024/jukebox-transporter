@@ -1,4 +1,4 @@
-localProperties.json
+src/main/resources/localProperties.json
 src/main/resources/credentials.json
 tokens/
 
