@@ -1,5 +1,8 @@
 package jukebox.googlesheet;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum GoogleSheetStatus {
 
     NEW("New"),
@@ -8,18 +11,24 @@ public enum GoogleSheetStatus {
     REJECTED("Rejected"),
     DOWNLOADED("Downloaded");
 
-    String sheetStatusName;
+    private String sheetStatusName;
+    private static final Map<String, GoogleSheetStatus> googleSheetStatusIndexMap = new HashMap<>();
+
+    static {
+        for (GoogleSheetStatus googleSheetStatus : values()) {
+            googleSheetStatusIndexMap.put(googleSheetStatus.sheetStatusName, googleSheetStatus);
+        }
+    }
 
     GoogleSheetStatus(String sheetStatusName) {
         this.sheetStatusName = sheetStatusName;
     }
 
     public static GoogleSheetStatus getStatusFromName(String searchingSheetStatusName) throws RuntimeException {
-        for (GoogleSheetStatus googleSheetStatus : GoogleSheetStatus.values()) {
-            if (googleSheetStatus.sheetStatusName.equals(searchingSheetStatusName)) {
-                return googleSheetStatus;
-            }
+        GoogleSheetStatus googleSheetStatus = googleSheetStatusIndexMap.get(searchingSheetStatusName);
+        if (googleSheetStatus == null) {
+            throw new GoogleSheetStatusException("No status found for " + searchingSheetStatusName);
         }
-        throw new GoogleSheetStatusException("No status found for " + searchingSheetStatusName);
+        return googleSheetStatus;
     }
 }
