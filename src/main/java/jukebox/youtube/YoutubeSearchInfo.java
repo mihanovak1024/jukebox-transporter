@@ -17,17 +17,12 @@ public class YoutubeSearchInfo {
         return previousLinks;
     }
 
-    public String getSearchQuery() {
-        return createSearchQuery();
+    public String getArtist() {
+        return artist;
     }
 
-    private String createSearchQuery() {
-        String searchQuery = "";
-        if (artist != null) {
-            searchQuery = artist;
-        }
-        searchQuery += song;
-        return searchQuery;
+    public String getSong() {
+        return song;
     }
 
     public static class YoutubeSearchInfoBuilder {
