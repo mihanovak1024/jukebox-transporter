@@ -9,7 +9,7 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
 
     @Override
     public void fetchDataAsync(YoutubeSearchInfo requestData, NetworkDataCallback<YoutubeSearchData> callback, ExecutorService executorService) {
-
+        String url
     }
 
     @Override
