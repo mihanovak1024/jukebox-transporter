@@ -4,6 +4,7 @@ import jukebox.googlesheet.*;
 import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
 import jukebox.youtube.YoutubeSearchData;
+import jukebox.youtube.YoutubeSearchDataFetcher;
 import jukebox.youtube.YoutubeSearchInfo;
 import jukebox.youtube.YoutubeSongData;
 
@@ -18,9 +19,9 @@ public class Main {
 
     private ExecutorService executorService = Executors.newFixedThreadPool(EXECUTOR_THREAD_POOL_SIZE);
 
-    private NetworkDataFetcher youtubeSearchDataFetcher;
+    private NetworkDataFetcher<YoutubeSearchInfo, YoutubeSearchData> youtubeSearchDataFetcher;
+    private NetworkDataFetcher<LocalProperties, List<GoogleSheetData>> googleSheetDataFetcher;
     private NetworkDataFetcher youtubeSongDataFetcher;
-    private NetworkDataFetcher<List<GoogleSheetData>> googleSheetDataFetcher;
 
     private GoogleSheetDataUpdater googleSheetDataUpdater;
 
@@ -32,8 +33,8 @@ public class Main {
     private Main() {
         LocalProperties localProperties = readLocalPropertiesFromFile();
 
-        initComponents(localProperties);
-        start();
+        initComponents();
+        start(localProperties);
     }
 
     private LocalProperties readLocalPropertiesFromFile() {
@@ -46,14 +47,15 @@ public class Main {
         }
     }
 
-    private void initComponents(LocalProperties localProperties) {
+    private void initComponents() {
         GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
-        googleSheetDataFetcher = new GoogleSheetDataFetcher(googleSheetDataParser, localProperties);
+        googleSheetDataFetcher = new GoogleSheetDataFetcher(googleSheetDataParser);
+        youtubeSearchDataFetcher = new YoutubeSearchDataFetcher();
     }
 
     // TODO: 2019-08-04 optimize everything (concurrency)
-    private void start() {
-        List<GoogleSheetData> musicDataList = getGoogleSheetData();
+    private void start(LocalProperties localProperties) {
+        List<GoogleSheetData> musicDataList = getGoogleSheetData(localProperties);
 
         for (GoogleSheetData musicData : musicDataList) {
             GoogleSheetStatus musicDataStatus = musicData.getGoogleSheetStatus();
@@ -84,13 +86,13 @@ public class Main {
         }
     }
 
-    private List<GoogleSheetData> getGoogleSheetData() {
-        List<GoogleSheetData> googleSheetData = googleSheetDataFetcher.fetchData();
+    private List<GoogleSheetData> getGoogleSheetData(LocalProperties localProperties) {
+        List<GoogleSheetData> googleSheetData = googleSheetDataFetcher.fetchData(localProperties);
         return googleSheetData;
     }
 
     private void recommendYoutubeSong(YoutubeSearchInfo youtubeSearchInfo) {
-        youtubeSearchDataFetcher.fetchDataAsync(new NetworkDataCallback<YoutubeSearchData>() {
+        youtubeSearchDataFetcher.fetchDataAsync(youtubeSearchInfo, new NetworkDataCallback<YoutubeSearchData>() {
             public void onDataReceived(YoutubeSearchData data) {
                 googleSheetDataUpdater.updateData();
             }
@@ -103,7 +105,7 @@ public class Main {
 
     private void uploadSongToRepository() {
         String url = "todo";
-        youtubeSongDataFetcher.fetchDataAsync(new NetworkDataCallback<YoutubeSongData>() {
+        youtubeSongDataFetcher.fetchDataAsync(url, new NetworkDataCallback<YoutubeSongData>() {
             public void onDataReceived(YoutubeSongData data) {
                 // TODO: 2019-08-04 mp4 to mp3 conversion + artist&title setup
                 // TODO: 2019-08-04 upload file to drive + delete locally

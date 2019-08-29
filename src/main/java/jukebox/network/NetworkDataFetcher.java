@@ -2,9 +2,9 @@ package jukebox.network;
 
 import java.util.concurrent.ExecutorService;
 
-public interface NetworkDataFetcher<T> {
+public interface NetworkDataFetcher<V, T> {
 
-    void fetchDataAsync(NetworkDataCallback<T> callback, ExecutorService executorService);
+    void fetchDataAsync(V requestData, NetworkDataCallback<T> callback, ExecutorService executorService);
 
-    T fetchData();
+    T fetchData(V requestData);
 }

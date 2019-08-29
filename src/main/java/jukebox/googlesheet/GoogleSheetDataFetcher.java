@@ -28,7 +28,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-public class GoogleSheetDataFetcher implements NetworkDataFetcher<List<GoogleSheetData>> {
+public class GoogleSheetDataFetcher implements NetworkDataFetcher<LocalProperties, List<GoogleSheetData>> {
     private static final String APPLICATION_NAME = "JukeboxTransporter";
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
@@ -36,17 +36,15 @@ public class GoogleSheetDataFetcher implements NetworkDataFetcher<List<GoogleShe
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
     private DataParser<GoogleSheetData, List> dataParser;
-    private LocalProperties localProperties;
 
-    public GoogleSheetDataFetcher(DataParser<GoogleSheetData, List> dataParser, LocalProperties localProperties) {
+    public GoogleSheetDataFetcher(DataParser<GoogleSheetData, List> dataParser) {
         this.dataParser = dataParser;
-        this.localProperties = localProperties;
     }
 
-    public void fetchDataAsync(NetworkDataCallback<List<GoogleSheetData>> callback, ExecutorService executorService) {
+    public void fetchDataAsync(LocalProperties localProperties, NetworkDataCallback<List<GoogleSheetData>> callback, ExecutorService executorService) {
         executorService.execute(() -> {
             try {
-                List<GoogleSheetData> googleSheetData = fetchGoogleSheetData();
+                List<GoogleSheetData> googleSheetData = fetchGoogleSheetData(localProperties);
                 callback.onDataReceived(googleSheetData);
             } catch (GeneralSecurityException | IOException e) {
                 e.printStackTrace();
@@ -55,10 +53,10 @@ public class GoogleSheetDataFetcher implements NetworkDataFetcher<List<GoogleShe
         });
     }
 
-    public List<GoogleSheetData> fetchData() {
+    public List<GoogleSheetData> fetchData(LocalProperties localProperties) {
         List<GoogleSheetData> googleSheetDataList = null;
         try {
-            googleSheetDataList = fetchGoogleSheetData();
+            googleSheetDataList = fetchGoogleSheetData(localProperties);
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         }
@@ -66,7 +64,7 @@ public class GoogleSheetDataFetcher implements NetworkDataFetcher<List<GoogleShe
 
     }
 
-    private List<GoogleSheetData> fetchGoogleSheetData() throws GeneralSecurityException, IOException {
+    private List<GoogleSheetData> fetchGoogleSheetData(LocalProperties localProperties) throws GeneralSecurityException, IOException {
         List<GoogleSheetData> googleSheetDataList = null;
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         final String spreadsheetId = localProperties.getSpreadsheetId();
