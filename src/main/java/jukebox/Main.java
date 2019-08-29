@@ -61,14 +61,23 @@ public class Main {
             String song = musicData.getSong();
             switch (musicDataStatus) {
                 case NEW:
-                    YoutubeSearchInfo youtubeSearchInfo = new YoutubeSearchInfo(artist, song);
+                    YoutubeSearchInfo youtubeSearchInfo = new YoutubeSearchInfo
+                            .YoutubeSearchInfoBuilder()
+                            .artist(artist)
+                            .song(song)
+                            .build();
                     recommendYoutubeSong(youtubeSearchInfo);
                     break;
                 case APPROVED:
                     uploadSongToRepository();
                     break;
                 case REJECTED:
-                    youtubeSearchInfo = new YoutubeSearchInfo(artist, song, musicData.getAllYoutubeVideoLinks());
+                    youtubeSearchInfo = new YoutubeSearchInfo
+                            .YoutubeSearchInfoBuilder()
+                            .artist(artist)
+                            .song(song)
+                            .previousLinks(musicData.getAllYoutubeVideoLinks())
+                            .build();
                     recommendYoutubeSong(youtubeSearchInfo);
                     break;
             }
