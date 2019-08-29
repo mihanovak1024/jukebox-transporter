@@ -42,4 +42,8 @@ public class Util {
     public static <T> T readJSONToObject(String jsonString, Class<T> clazz) throws IOException {
         return mapper.readValue(jsonString, clazz);
     }
+
+    public static boolean isNullOrEmpty(String string) {
+        return string == null || string.length() <= 0;
+    }
 }
