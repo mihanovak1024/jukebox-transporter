@@ -43,10 +43,10 @@ public class GoogleSheetDataFetcher implements NetworkDataFetcher<List<GoogleShe
         this.localProperties = localProperties;
     }
 
-    public void fetchDataAsync(String url, NetworkDataCallback<List<GoogleSheetData>> callback, ExecutorService executorService) {
+    public void fetchDataAsync(NetworkDataCallback<List<GoogleSheetData>> callback, ExecutorService executorService) {
         executorService.execute(() -> {
             try {
-                List<GoogleSheetData> googleSheetData = fetchGoogleSheetData(url);
+                List<GoogleSheetData> googleSheetData = fetchGoogleSheetData();
                 callback.onDataReceived(googleSheetData);
             } catch (GeneralSecurityException | IOException e) {
                 e.printStackTrace();
@@ -55,10 +55,10 @@ public class GoogleSheetDataFetcher implements NetworkDataFetcher<List<GoogleShe
         });
     }
 
-    public List<GoogleSheetData> fetchData(String url) {
+    public List<GoogleSheetData> fetchData() {
         List<GoogleSheetData> googleSheetDataList = null;
         try {
-            googleSheetDataList = fetchGoogleSheetData(url);
+            googleSheetDataList = fetchGoogleSheetData();
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         }
@@ -66,7 +66,7 @@ public class GoogleSheetDataFetcher implements NetworkDataFetcher<List<GoogleShe
 
     }
 
-    private List<GoogleSheetData> fetchGoogleSheetData(String url) throws GeneralSecurityException, IOException {
+    private List<GoogleSheetData> fetchGoogleSheetData() throws GeneralSecurityException, IOException {
         List<GoogleSheetData> googleSheetDataList = null;
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         final String spreadsheetId = localProperties.getSpreadsheetId();

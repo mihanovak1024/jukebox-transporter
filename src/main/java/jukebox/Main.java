@@ -85,14 +85,12 @@ public class Main {
     }
 
     private List<GoogleSheetData> getGoogleSheetData() {
-        String url = "todo";
-        List<GoogleSheetData> googleSheetData = googleSheetDataFetcher.fetchData(url);
+        List<GoogleSheetData> googleSheetData = googleSheetDataFetcher.fetchData();
         return googleSheetData;
     }
 
     private void recommendYoutubeSong(YoutubeSearchInfo youtubeSearchInfo) {
-        String url = "todo";
-        youtubeSearchDataFetcher.fetchDataAsync(url, new NetworkDataCallback<YoutubeSearchData>() {
+        youtubeSearchDataFetcher.fetchDataAsync(new NetworkDataCallback<YoutubeSearchData>() {
             public void onDataReceived(YoutubeSearchData data) {
                 googleSheetDataUpdater.updateData();
             }
@@ -105,7 +103,7 @@ public class Main {
 
     private void uploadSongToRepository() {
         String url = "todo";
-        youtubeSongDataFetcher.fetchDataAsync(url, new NetworkDataCallback<YoutubeSongData>() {
+        youtubeSongDataFetcher.fetchDataAsync(new NetworkDataCallback<YoutubeSongData>() {
             public void onDataReceived(YoutubeSongData data) {
                 // TODO: 2019-08-04 mp4 to mp3 conversion + artist&title setup
                 // TODO: 2019-08-04 upload file to drive + delete locally
