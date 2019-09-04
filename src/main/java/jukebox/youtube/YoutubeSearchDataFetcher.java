@@ -8,8 +8,6 @@ import java.util.concurrent.ExecutorService;
 
 public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearchInfo, YoutubeSearchData> {
 
-    private static final String YOUTUBE_SEARCH_BASE_URL = "https://www.youtube.com/results?search_query=";
-
     @Override
     public void fetchDataAsync(YoutubeSearchInfo youtubeSearchInfo, NetworkDataCallback<YoutubeSearchData> callback, ExecutorService executorService) {
         executorService.execute(() -> {
@@ -36,7 +34,13 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
 
     private String createUrl(YoutubeSearchInfo youtubeSearchInfo) {
         String searchQuery = createArtistSongQuery(youtubeSearchInfo);
-        return YOUTUBE_SEARCH_BASE_URL + searchQuery;
+        return String.format(
+                "%s/%s?%s=%s",
+                YoutubeConstants.YOUTUBE_BASE_URL,
+                YoutubeConstants.YOUTUBE_SEARCH_ENDPOINT,
+                YoutubeConstants.YOUTUBE_SEARCH_QUERY,
+                searchQuery
+        );
     }
 
     private String createArtistSongQuery(YoutubeSearchInfo youtubeSearchInfo) {
