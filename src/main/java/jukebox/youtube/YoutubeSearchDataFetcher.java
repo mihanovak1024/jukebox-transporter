@@ -10,9 +10,14 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearchInfo, YoutubeSearchData> {
 
+    private static final String VIDEO_LIST_REGEX = "ytInitialData\"] = (\\{\"responseContext\":.*);";
+
+    private Pattern regexPattern = Pattern.compile(VIDEO_LIST_REGEX);
     private YoutubeService youtubeService;
 
     public YoutubeSearchDataFetcher() {
@@ -38,22 +43,37 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
 
     @Override
     public YoutubeSearchData fetchData(YoutubeSearchInfo youtubeSearchInfo) {
-        return createRequest(youtubeSearchInfo);
-    }
-
-    private YoutubeSearchData createRequest(YoutubeSearchInfo youtubeSearchInfo) {
-        String query = createArtistSongQuery(youtubeSearchInfo);
-        Call<String> searchResultsHtmlCall = youtubeService.getSearchResult(query);
-
+        // TODO: 2019-09-04 change this
         try {
-            Response<String> searchResultsHtmlResponse = searchResultsHtmlCall.execute();
-            String searchResultHtml = searchResultsHtmlResponse.body();
-
+            return createRequest(youtubeSearchInfo);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // TODO: 2019-09-04 get the ytInitialData json from html
-        // TODO: 2019-09-04 transform with Jackson 
+        return null;
+    }
+
+    private YoutubeSearchData createRequest(YoutubeSearchInfo youtubeSearchInfo) throws IOException {
+        String query = createArtistSongQuery(youtubeSearchInfo);
+        Call<String> searchResultsHtmlCall = youtubeService.getSearchResult(query);
+
+        String searchResultHtml = null;
+        Response<String> searchResultsHtmlResponse = searchResultsHtmlCall.execute();
+        searchResultHtml = searchResultsHtmlResponse.body();
+        
+        String requestContextJson = getRequestContextJson(searchResultHtml);
+        // TODO: 2019-09-04 transform with Jackson
+        return null;
+    }
+
+    private String getRequestContextJson(String searchResultHtml) {
+        Matcher matcher = regexPattern.matcher(searchResultHtml);
+        if (matcher.groupCount() > 0) {
+            String startOfJson = matcher.group(0);
+            // TODO: 2019-09-04 match correct one
+            // TODO: 2019-09-04 get whole valid json
+
+        }
+        // TODO: 2019-09-04 throw YoutubeJsonParse error
         return null;
     }
 
