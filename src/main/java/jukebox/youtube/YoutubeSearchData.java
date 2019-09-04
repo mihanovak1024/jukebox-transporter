@@ -5,6 +5,11 @@ public class YoutubeSearchData {
     private String title;
     private String youtubeLink;
 
+    public YoutubeSearchData(String title, String youtubeLink) {
+        this.title = title;
+        this.youtubeLink = youtubeLink;
+    }
+
     public String getTitle() {
         return title;
     }

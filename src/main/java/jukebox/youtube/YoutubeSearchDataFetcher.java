@@ -3,10 +3,26 @@ package jukebox.youtube;
 import jukebox.Util;
 import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 
 public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearchInfo, YoutubeSearchData> {
+
+    private YoutubeService youtubeService;
+
+    public YoutubeSearchDataFetcher() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .baseUrl(YoutubeConstants.YOUTUBE_BASE_URL)
+                .build();
+
+        youtubeService = retrofit.create(YoutubeService.class);
+    }
 
     @Override
     public void fetchDataAsync(YoutubeSearchInfo youtubeSearchInfo, NetworkDataCallback<YoutubeSearchData> callback, ExecutorService executorService) {
@@ -26,21 +42,19 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
     }
 
     private YoutubeSearchData createRequest(YoutubeSearchInfo youtubeSearchInfo) {
-        String url = createUrl(youtubeSearchInfo);
+        String query = createArtistSongQuery(youtubeSearchInfo);
+        Call<String> searchResultsHtmlCall = youtubeService.getSearchResult(query);
 
-        // TODO: 2019-08-29 create actual request + transform with Jackson
+        try {
+            Response<String> searchResultsHtmlResponse = searchResultsHtmlCall.execute();
+            String searchResultHtml = searchResultsHtmlResponse.body();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // TODO: 2019-09-04 get the ytInitialData json from html
+        // TODO: 2019-09-04 transform with Jackson 
         return null;
-    }
-
-    private String createUrl(YoutubeSearchInfo youtubeSearchInfo) {
-        String searchQuery = createArtistSongQuery(youtubeSearchInfo);
-        return String.format(
-                "%s/%s?%s=%s",
-                YoutubeConstants.YOUTUBE_BASE_URL,
-                YoutubeConstants.YOUTUBE_SEARCH_ENDPOINT,
-                YoutubeConstants.YOUTUBE_SEARCH_QUERY,
-                searchQuery
-        );
     }
 
     private String createArtistSongQuery(YoutubeSearchInfo youtubeSearchInfo) {
