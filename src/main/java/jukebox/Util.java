@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
+import java.util.List;
 
 public class Util {
 
@@ -45,5 +46,9 @@ public class Util {
 
     public static boolean isNullOrEmpty(String string) {
         return string == null || string.length() <= 0;
+    }
+
+    public static boolean isNullOrEmpty(List list) {
+        return list == null || list.size() <= 0;
     }
 }

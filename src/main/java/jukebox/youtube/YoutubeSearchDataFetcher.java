@@ -1,18 +1,22 @@
 package jukebox.youtube;
 
+import com.google.api.client.json.jackson2.JacksonFactory;
 import jukebox.Util;
 import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
+import jukebox.youtube.response.*;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static jukebox.youtube.YoutubeSearchParserException.SEARCH_DATA_PARSE_ERROR;
 import static jukebox.youtube.YoutubeSearchParserException.SEARCH_JSON_RESPONSE_PARSE_ERROR;
 
 public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearchInfo, YoutubeSearchData> {
@@ -59,13 +63,15 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
         String query = createArtistSongQuery(youtubeSearchInfo);
         Call<String> searchResultsHtmlCall = youtubeService.getSearchResult(query);
 
-        String searchResultHtml = null;
         Response<String> searchResultsHtmlResponse = searchResultsHtmlCall.execute();
-        searchResultHtml = searchResultsHtmlResponse.body();
+        String searchResultHtml = searchResultsHtmlResponse.body();
 
         String requestContextJson = getRequestContextJson(searchResultHtml);
-        // TODO: 2019-09-04 transform with Jackson
-        return null;
+
+        YoutubeSearchResponse youtubeSearchResponse = Util.readJSONToObject(requestContextJson, YoutubeSearchResponse.class);
+
+        YoutubeSearchData youtubeSearchData = createSearchDataFromSearchResponse(youtubeSearchResponse);
+        return youtubeSearchData;
     }
 
     private String getRequestContextJson(String searchResultHtml) {
@@ -90,5 +96,47 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
             return song;
         }
         throw new IllegalStateException("Both artist and song are null!");
+    }
+
+    private YoutubeSearchData createSearchDataFromSearchResponse(YoutubeSearchResponse youtubeSearchResponse) {
+        RootContents rootContents = youtubeSearchResponse.getRootContents();
+        if (rootContents != null) {
+            TwoColumnSearchResultsRenderer twoColumnSearchResultsRenderer = rootContents.getTwoColumnSearchResultsRenderer();
+            if (twoColumnSearchResultsRenderer != null) {
+                PrimaryContents primaryContents = twoColumnSearchResultsRenderer.getPrimaryContents();
+                if (primaryContents != null) {
+                    SectionListRenderer sectionListRenderer = primaryContents.getSectionListRenderer();
+                    if (sectionListRenderer != null) {
+                        List<SectionContents> sectionContentList = sectionListRenderer.getSectionContents();
+                        if (!Util.isNullOrEmpty(sectionContentList)) {
+                            ItemSectionRenderer itemSectionRenderer = sectionContentList.get(0).getItemSectionRenderer();
+                            if (itemSectionRenderer != null) {
+                                List<ItemSectionContents> itemSectionContentList = itemSectionRenderer.getItemSectionContents();
+                                if (!Util.isNullOrEmpty(itemSectionContentList)) {
+                                    List<VideoRenderer> videoRendererList = itemSectionContentList.get(0).getVideoRenderer();
+                                    if (!Util.isNullOrEmpty(videoRendererList)) {
+                                        VideoRenderer firstVideoRenderer = videoRendererList.get(0);
+                                        Title title = firstVideoRenderer.getTitle();
+                                        String titleString = null;
+                                        if (title != null) {
+                                            List<Run> runList = title.getRuns();
+                                            if (!Util.isNullOrEmpty(runList)) {
+                                                titleString = runList.get(0).getText();
+
+                                            }
+                                        }
+                                        String videoId = firstVideoRenderer.getVideoId();
+                                        if (!Util.isNullOrEmpty(titleString) && !Util.isNullOrEmpty(videoId)) {
+                                            return new YoutubeSearchData(titleString, videoRendererList.get(0).getVideoId());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        throw new YoutubeSearchParserException(SEARCH_DATA_PARSE_ERROR);
     }
 }
