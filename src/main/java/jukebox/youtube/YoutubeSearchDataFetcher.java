@@ -13,9 +13,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static jukebox.youtube.YoutubeSearchParserException.SEARCH_JSON_RESPONSE_PARSE_ERROR;
+
 public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearchInfo, YoutubeSearchData> {
 
-    private static final String VIDEO_LIST_REGEX = "ytInitialData\"] = (\\{\"responseContext\":.*);";
+    private static final String VIDEO_LIST_REGEX = "ytInitialData\"] = (\\{\"responseContext\":.*);\n";
+    private static final int CONTENT_JSON_RESPONSE_GROUP = 1;
 
     private Pattern regexPattern = Pattern.compile(VIDEO_LIST_REGEX);
     private YoutubeService youtubeService;
@@ -59,7 +62,7 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
         String searchResultHtml = null;
         Response<String> searchResultsHtmlResponse = searchResultsHtmlCall.execute();
         searchResultHtml = searchResultsHtmlResponse.body();
-        
+
         String requestContextJson = getRequestContextJson(searchResultHtml);
         // TODO: 2019-09-04 transform with Jackson
         return null;
@@ -67,14 +70,11 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
 
     private String getRequestContextJson(String searchResultHtml) {
         Matcher matcher = regexPattern.matcher(searchResultHtml);
-        if (matcher.groupCount() > 0) {
-            String startOfJson = matcher.group(0);
-            // TODO: 2019-09-04 match correct one
-            // TODO: 2019-09-04 get whole valid json
-
+        if (matcher.find()) {
+            String responseJson = matcher.group(CONTENT_JSON_RESPONSE_GROUP);
+            return responseJson;
         }
-        // TODO: 2019-09-04 throw YoutubeJsonParse error
-        return null;
+        throw new YoutubeSearchParserException(SEARCH_JSON_RESPONSE_PARSE_ERROR);
     }
 
     private String createArtistSongQuery(YoutubeSearchInfo youtubeSearchInfo) {
