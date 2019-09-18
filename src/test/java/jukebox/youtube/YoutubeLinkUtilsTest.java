@@ -115,7 +115,7 @@ public class YoutubeLinkUtilsTest extends BaseTest {
         assertThat(wantedVideoId, equalTo(videoId));
     }
 
-    @Test (expected = YoutubeParserException.class)
+    @Test(expected = YoutubeParserException.class)
     public void getVideoIdFromLink_noVideoId_exceptionThrown() {
         // given
         String link = "watch?&time=afefa4&lala=afeafa314_-";
