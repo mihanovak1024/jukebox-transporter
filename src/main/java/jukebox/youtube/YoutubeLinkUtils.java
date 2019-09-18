@@ -1,15 +1,17 @@
 package jukebox.youtube;
 
+import jukebox.Util;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// TODO: 2019-09-18 add tests
 public class YoutubeLinkUtils {
 
-    private static final int VIDEO_ID_GROUP = 1;
-    private static final Pattern VIDEO_ID_REGEX_PATTERN = Pattern.compile("watch.*video=([a-zA-Z0-9]+)");
+    private static final int VIDEO_ID_GROUP1 = 1;
+    private static final int VIDEO_ID_GROUP2 = 2;
+    private static final Pattern VIDEO_ID_REGEX_PATTERN = Pattern.compile("watch.*video=(.+)[/&]|watch.*video=(.*)");
 
     private static YoutubeLinkUtils INSTANCE;
 
@@ -21,14 +23,26 @@ public class YoutubeLinkUtils {
     }
 
     String getVideoIdFromLink(String link) throws YoutubeParserException {
+        if (Util.isNullOrEmpty(link)) {
+            throw new YoutubeParserException(YoutubeParserException.LINK_VIDEO_ID_PARSE_ERROR);
+        }
         Matcher matcher = VIDEO_ID_REGEX_PATTERN.matcher(link);
         if (matcher.find()) {
-            return matcher.group(VIDEO_ID_GROUP);
+            String videoId = matcher.group(VIDEO_ID_GROUP1);
+            if (Util.isNullOrEmpty(videoId)) {
+                videoId = matcher.group(VIDEO_ID_GROUP2);
+            }
+            if (!Util.isNullOrEmpty(videoId)) {
+                return videoId;
+            }
         }
         throw new YoutubeParserException(YoutubeParserException.LINK_VIDEO_ID_PARSE_ERROR);
     }
 
     String createLinkFromVideoId(String videoId) {
+        if (Util.isNullOrEmpty(videoId)) {
+            throw new YoutubeParserException(YoutubeParserException.LINK_VIDEO_ID_PARSE_ERROR);
+        }
         return String.format(YoutubeConstants.VIDEO_URL_FORMAT, videoId);
     }
 
@@ -39,7 +53,7 @@ public class YoutubeLinkUtils {
                 String youtubeVideoId = getVideoIdFromLink(youtubeVideoLink);
                 youtubeVideoIds.add(youtubeVideoId);
             } catch (YoutubeParserException e) {
-                e.printStackTrace();
+                System.out.println(String.format("Error while parsing link [%s]", youtubeVideoLink));
             }
         }
         return youtubeVideoIds;
