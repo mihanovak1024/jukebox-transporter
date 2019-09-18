@@ -1,11 +1,12 @@
 package jukebox.youtube;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class YoutubeSearchInfo {
     private final String artist;
     private final String song;
-    private final List<String> previousLinks; // TODO: 2019-08-04 or just video ids?
+    private final List<String> previousLinks;
 
     private YoutubeSearchInfo(YoutubeSearchInfoBuilder builder) {
         this.artist = builder.artist;
@@ -28,7 +29,7 @@ public class YoutubeSearchInfo {
     public static class YoutubeSearchInfoBuilder {
         private String artist;
         private String song;
-        private List<String> previousLinks;
+        private List<String> previousLinks = new ArrayList<>();
 
         public YoutubeSearchInfoBuilder artist(String artist) {
             this.artist = artist;

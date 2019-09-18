@@ -1,6 +1,7 @@
 package jukebox.googlesheet;
 
 import com.google.common.annotations.VisibleForTesting;
+import jukebox.Util;
 import jukebox.network.DataParser;
 
 import java.util.ArrayList;
@@ -52,14 +53,9 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
         GoogleSheetStatus status = GoogleSheetStatus.getStatusFromName(statusString);
 
         String allLinksListString = stringData.get(GOOGLE_SHEET_COLUMN_LINK_LIST);
-        List<String> allLinkList = null;
-        if (link != null) {
-            if (allLinksListString == null) {
-                allLinkList = new ArrayList<>();
-            } else {
-                allLinkList = new ArrayList<>(Arrays.asList(allLinksListString.split(",")));
-            }
-            allLinkList.add(0, link);
+        List<String> allLinkList = new ArrayList<>();
+        if (!Util.isNullOrEmpty(allLinksListString)) {
+            allLinkList = new ArrayList<>(Arrays.asList(allLinksListString.split(",")));
         }
 
         return new GoogleSheetData(

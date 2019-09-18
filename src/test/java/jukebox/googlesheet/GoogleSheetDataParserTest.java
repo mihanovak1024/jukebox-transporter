@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static jukebox.googlesheet.GoogleSheetDataParser.*;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 public class GoogleSheetDataParserTest extends BaseTest {
@@ -48,7 +47,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         assertThat(resultGoogleSheetData.getYoutubeVideoTitle(), nullValue());
         assertThat(resultGoogleSheetData.getYoutubeVideoLink(), nullValue());
         assertThat(resultGoogleSheetData.getDirectory(), nullValue());
-        assertThat(resultGoogleSheetData.getAllYoutubeVideoLinks(), nullValue());
+        assertThat(resultGoogleSheetData.getAllYoutubeVideoLinks(), notNullValue());
     }
 
     @Test
@@ -76,7 +75,6 @@ public class GoogleSheetDataParserTest extends BaseTest {
 
         // then
         List<String> updatedLinkList = new ArrayList<>();
-        updatedLinkList.add(link);
         assertThat(GoogleSheetStatus.PENDING, equalTo(resultGoogleSheetData.getGoogleSheetStatus()));
         assertThat(resultGoogleSheetData.getArtist(), equalTo(artist));
         assertThat(resultGoogleSheetData.getSong(), equalTo(song));
@@ -111,7 +109,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
 
         // then
         List<String> updatedLinkList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             updatedLinkList.add(link);
         }
         assertThat(GoogleSheetStatus.PENDING, equalTo(resultGoogleSheetData.getGoogleSheetStatus()));
@@ -148,7 +146,6 @@ public class GoogleSheetDataParserTest extends BaseTest {
 
         // then
         List<String> updatedLinkList = new ArrayList<>();
-        updatedLinkList.add(link);
         assertThat(GoogleSheetStatus.PENDING, equalTo(resultGoogleSheetData.getGoogleSheetStatus()));
         assertThat(resultGoogleSheetData.getArtist(), nullValue());
         assertThat(resultGoogleSheetData.getSong(), equalTo(song));
