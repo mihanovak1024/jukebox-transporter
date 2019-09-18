@@ -75,7 +75,6 @@ public class GoogleSheetDataParserTest extends BaseTest {
 
         // then
         List<String> updatedLinkList = new ArrayList<>();
-        updatedLinkList.add(link);
         assertThat(GoogleSheetStatus.PENDING, equalTo(resultGoogleSheetData.getGoogleSheetStatus()));
         assertThat(resultGoogleSheetData.getArtist(), equalTo(artist));
         assertThat(resultGoogleSheetData.getSong(), equalTo(song));
@@ -110,7 +109,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
 
         // then
         List<String> updatedLinkList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             updatedLinkList.add(link);
         }
         assertThat(GoogleSheetStatus.PENDING, equalTo(resultGoogleSheetData.getGoogleSheetStatus()));
@@ -147,7 +146,6 @@ public class GoogleSheetDataParserTest extends BaseTest {
 
         // then
         List<String> updatedLinkList = new ArrayList<>();
-        updatedLinkList.add(link);
         assertThat(GoogleSheetStatus.PENDING, equalTo(resultGoogleSheetData.getGoogleSheetStatus()));
         assertThat(resultGoogleSheetData.getArtist(), nullValue());
         assertThat(resultGoogleSheetData.getSong(), equalTo(song));

@@ -10,6 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
@@ -111,8 +112,16 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
                             ItemSectionRenderer itemSectionRenderer = sectionContentList.get(0).getItemSectionRenderer();
                             if (itemSectionRenderer != null) {
                                 List<ItemSectionContents> itemSectionContentList = itemSectionRenderer.getItemSectionContents();
+                                List<VideoRenderer> videoRenderers = new ArrayList<>();
                                 if (!Util.isNullOrEmpty(itemSectionContentList)) {
-                                    List<VideoRenderer> videoRenderers = itemSectionContentList.get(0).getVideoRenderer();
+                                    for (ItemSectionContents itemSectionContents : itemSectionContentList) {
+                                        List<VideoRenderer> itemSectionVideoRenderers = itemSectionContents.getVideoRenderer();
+                                        if (!Util.isNullOrEmpty(itemSectionVideoRenderers)) {
+                                            for (VideoRenderer itemSectionVideoRenderer : itemSectionVideoRenderers) {
+                                                videoRenderers.add(itemSectionVideoRenderer);
+                                            }
+                                        }
+                                    }
                                     return videoRenderers;
                                 }
                             }
