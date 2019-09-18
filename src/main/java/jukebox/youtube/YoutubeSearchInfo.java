@@ -5,7 +5,7 @@ import java.util.List;
 public class YoutubeSearchInfo {
     private final String artist;
     private final String song;
-    private final List<String> previousLinks; // TODO: 2019-08-04 or just video ids?
+    private final List<String> previousLinks;
 
     private YoutubeSearchInfo(YoutubeSearchInfoBuilder builder) {
         this.artist = builder.artist;

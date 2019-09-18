@@ -1,6 +1,5 @@
 package jukebox.youtube;
 
-import com.google.api.client.json.jackson2.JacksonFactory;
 import jukebox.Util;
 import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
@@ -16,8 +15,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static jukebox.youtube.YoutubeSearchParserException.SEARCH_DATA_PARSE_ERROR;
-import static jukebox.youtube.YoutubeSearchParserException.SEARCH_JSON_RESPONSE_PARSE_ERROR;
+import static jukebox.youtube.YoutubeParserException.SEARCH_DATA_PARSE_ERROR;
+import static jukebox.youtube.YoutubeParserException.SEARCH_JSON_RESPONSE_PARSE_ERROR;
 
 public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearchInfo, YoutubeSearchData> {
 
@@ -70,7 +69,7 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
 
         YoutubeSearchResponse youtubeSearchResponse = Util.readJSONToObject(requestContextJson, YoutubeSearchResponse.class);
 
-        YoutubeSearchData youtubeSearchData = createSearchDataFromSearchResponse(youtubeSearchResponse);
+        YoutubeSearchData youtubeSearchData = createSearchDataFromSearchResponse(youtubeSearchResponse, youtubeSearchInfo.getPreviousLinks());
         return youtubeSearchData;
     }
 
@@ -80,7 +79,7 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
             String responseJson = matcher.group(CONTENT_JSON_RESPONSE_GROUP);
             return responseJson;
         }
-        throw new YoutubeSearchParserException(SEARCH_JSON_RESPONSE_PARSE_ERROR);
+        throw new YoutubeParserException(SEARCH_JSON_RESPONSE_PARSE_ERROR);
     }
 
     private String createArtistSongQuery(YoutubeSearchInfo youtubeSearchInfo) {
@@ -98,7 +97,8 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
         throw new IllegalStateException("Both artist and song are null!");
     }
 
-    private YoutubeSearchData createSearchDataFromSearchResponse(YoutubeSearchResponse youtubeSearchResponse) {
+    private YoutubeSearchData createSearchDataFromSearchResponse(YoutubeSearchResponse youtubeSearchResponse, List<String> deniedVideoLinks) {
+        // TODO: 2019-09-17 filter denied video ids
         RootContents rootContents = youtubeSearchResponse.getRootContents();
         if (rootContents != null) {
             TwoColumnSearchResultsRenderer twoColumnSearchResultsRenderer = rootContents.getTwoColumnSearchResultsRenderer();
@@ -137,6 +137,6 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
                 }
             }
         }
-        throw new YoutubeSearchParserException(SEARCH_DATA_PARSE_ERROR);
+        throw new YoutubeParserException(SEARCH_DATA_PARSE_ERROR);
     }
 }

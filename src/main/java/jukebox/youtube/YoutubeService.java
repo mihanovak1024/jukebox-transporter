@@ -7,7 +7,7 @@ import retrofit2.http.Query;
 
 interface YoutubeService {
 
-    @Headers("User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36")
+    @Headers(YoutubeConstants.HARDCODED_BROWSER_USER_AGENT)
     @GET("results")
     Call<String> getSearchResult(@Query("search_query") String searchQuery);
 
