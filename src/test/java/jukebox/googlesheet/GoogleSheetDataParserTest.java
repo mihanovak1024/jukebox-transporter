@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static jukebox.googlesheet.GoogleSheetDataParser.*;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 public class GoogleSheetDataParserTest extends BaseTest {
@@ -48,7 +47,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         assertThat(resultGoogleSheetData.getYoutubeVideoTitle(), nullValue());
         assertThat(resultGoogleSheetData.getYoutubeVideoLink(), nullValue());
         assertThat(resultGoogleSheetData.getDirectory(), nullValue());
-        assertThat(resultGoogleSheetData.getAllYoutubeVideoLinks(), nullValue());
+        assertThat(resultGoogleSheetData.getAllYoutubeVideoLinks(), notNullValue());
     }
 
     @Test

@@ -1,5 +1,6 @@
 package jukebox.youtube;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class YoutubeSearchInfo {
@@ -28,7 +29,7 @@ public class YoutubeSearchInfo {
     public static class YoutubeSearchInfoBuilder {
         private String artist;
         private String song;
-        private List<String> previousLinks;
+        private List<String> previousLinks = new ArrayList<>();
 
         public YoutubeSearchInfoBuilder artist(String artist) {
             this.artist = artist;

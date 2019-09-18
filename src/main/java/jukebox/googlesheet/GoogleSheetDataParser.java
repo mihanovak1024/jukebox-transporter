@@ -52,11 +52,9 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
         GoogleSheetStatus status = GoogleSheetStatus.getStatusFromName(statusString);
 
         String allLinksListString = stringData.get(GOOGLE_SHEET_COLUMN_LINK_LIST);
-        List<String> allLinkList = null;
+        List<String> allLinkList = new ArrayList<>();
         if (link != null) {
-            if (allLinksListString == null) {
-                allLinkList = new ArrayList<>();
-            } else {
+            if (allLinksListString != null) {
                 allLinkList = new ArrayList<>(Arrays.asList(allLinksListString.split(",")));
             }
             allLinkList.add(0, link);
