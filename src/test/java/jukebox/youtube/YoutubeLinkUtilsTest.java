@@ -16,7 +16,7 @@ public class YoutubeLinkUtilsTest extends BaseTest {
     public void getVideoIdFromLink_baseLink_validData() {
         // given
         String videoId = "e15115afTT3ta";
-        String link = String.format("watch?video=%s", videoId);
+        String link = String.format("watch?v=%s", videoId);
 
         // when
         String wantedVideoId = YoutubeLinkUtils.getInstance().getVideoIdFromLink(link);
@@ -41,7 +41,7 @@ public class YoutubeLinkUtilsTest extends BaseTest {
     public void getVideoIdFromLink_linkWithUnderscore_validData() {
         // given
         String videoId = "e15115_afTT_3ta";
-        String link = String.format("watch?video=%s", videoId);
+        String link = String.format("watch?v=%s", videoId);
 
         // when
         String wantedVideoId = YoutubeLinkUtils.getInstance().getVideoIdFromLink(link);
@@ -54,7 +54,7 @@ public class YoutubeLinkUtilsTest extends BaseTest {
     public void getVideoIdFromLink_linkWithDash_validData() {
         // given
         String videoId = "e15115-afTT-3ta";
-        String link = String.format("watch?video=%s", videoId);
+        String link = String.format("watch?v=%s", videoId);
 
         // when
         String wantedVideoId = YoutubeLinkUtils.getInstance().getVideoIdFromLink(link);
@@ -67,7 +67,7 @@ public class YoutubeLinkUtilsTest extends BaseTest {
     public void getVideoIdFromLink_linkWithSlashes_validData() {
         // given
         String videoId = "feafaefaef3145251";
-        String link = String.format("watch?video=%s/afefa4", videoId);
+        String link = String.format("watch?v=%s/afefa4", videoId);
 
         // when
         String wantedVideoId = YoutubeLinkUtils.getInstance().getVideoIdFromLink(link);
@@ -80,7 +80,7 @@ public class YoutubeLinkUtilsTest extends BaseTest {
     public void getVideoIdFromLink_linkWithQueryParams_validData() {
         // given
         String videoId = "feafaefaef3145251";
-        String link = String.format("watch?video=%s&time=afefa4", videoId);
+        String link = String.format("watch?v=%s&time=afefa4", videoId);
 
         // when
         String wantedVideoId = YoutubeLinkUtils.getInstance().getVideoIdFromLink(link);
@@ -93,7 +93,7 @@ public class YoutubeLinkUtilsTest extends BaseTest {
     public void getVideoIdFromLink_linkWithPreQueryParams_validData() {
         // given
         String videoId = "feafaefaef3145251";
-        String link = String.format("watch?&time=afefa4&video=%s", videoId);
+        String link = String.format("watch?&time=afefa4&v=%s", videoId);
 
         // when
         String wantedVideoId = YoutubeLinkUtils.getInstance().getVideoIdFromLink(link);
@@ -106,7 +106,7 @@ public class YoutubeLinkUtilsTest extends BaseTest {
     public void getVideoIdFromLink_linkWithSpecialCharsAndQueryParams_validData() {
         // given
         String videoId = "feafaefaef-3145_2-51";
-        String link = String.format("watch?&time=afefa4&video=%s&lala=afeafa314_-", videoId);
+        String link = String.format("watch?&time=afefa4&v=%s&lala=afeafa314_-", videoId);
 
         // when
         String wantedVideoId = YoutubeLinkUtils.getInstance().getVideoIdFromLink(link);
@@ -131,7 +131,7 @@ public class YoutubeLinkUtilsTest extends BaseTest {
     public void createLinkFromVideoId_validVideo_linkReturned() {
         // given
         String videoId = "lae-af_aef__aef";
-        String link = String.format("%s/watch?video=%s", YoutubeConstants.YOUTUBE_BASE_URL, videoId);
+        String link = String.format("%s/watch?v=%s", YoutubeConstants.YOUTUBE_BASE_URL, videoId);
 
         // when
         String wantedLink = YoutubeLinkUtils.getInstance().createLinkFromVideoId(videoId);
@@ -158,8 +158,8 @@ public class YoutubeLinkUtilsTest extends BaseTest {
         List<String> youtubeVideoLinks = new ArrayList<>();
         String videoId1 = "feafaefaef-3145_2-51";
         String videoId2 = "3145_2-51eaffaEFafqafe_";
-        youtubeVideoLinks.add(String.format("watch?time=afefa4&video=%s&lala=afeafa314_-", videoId1));
-        youtubeVideoLinks.add(String.format("watch?video=%s", videoId2));
+        youtubeVideoLinks.add(String.format("watch?time=afefa4&v=%s&lala=afeafa314_-", videoId1));
+        youtubeVideoLinks.add(String.format("watch?v=%s", videoId2));
 
         // when
         List<String> wantedVideoIds = YoutubeLinkUtils.getInstance().transformVideoLinkListToVideoIdList(youtubeVideoLinks);
@@ -176,7 +176,7 @@ public class YoutubeLinkUtilsTest extends BaseTest {
         String videoId1 = "feafaefaef-3145_2-51";
         String videoId2 = "3145_2-51eaffaEFafqafe_";
         youtubeVideoLinks.add(String.format("watch?videoe=%s/afae", videoId1));
-        youtubeVideoLinks.add(String.format("watch?time=afefa4&video=%s&lala=afeafa314_-", videoId2));
+        youtubeVideoLinks.add(String.format("watch?time=afefa4&v=%s&lala=afeafa314_-", videoId2));
 
         // when
         List<String> wantedVideoIds = YoutubeLinkUtils.getInstance().transformVideoLinkListToVideoIdList(youtubeVideoLinks);

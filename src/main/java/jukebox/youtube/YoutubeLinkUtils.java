@@ -11,7 +11,7 @@ public class YoutubeLinkUtils {
 
     private static final int VIDEO_ID_GROUP1 = 1;
     private static final int VIDEO_ID_GROUP2 = 2;
-    private static final Pattern VIDEO_ID_REGEX_PATTERN = Pattern.compile("watch.*video=(.+)[/&]|watch.*video=(.*)");
+    private static final Pattern VIDEO_ID_REGEX_PATTERN = Pattern.compile("watch.*v=(.+)[/&]|watch.*v=(.*)");
 
     private static YoutubeLinkUtils INSTANCE;
 
