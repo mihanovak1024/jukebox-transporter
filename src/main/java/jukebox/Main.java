@@ -3,10 +3,7 @@ package jukebox;
 import jukebox.googlesheet.*;
 import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
-import jukebox.youtube.YoutubeSearchData;
-import jukebox.youtube.YoutubeSearchDataFetcher;
-import jukebox.youtube.YoutubeSearchInfo;
-import jukebox.youtube.YoutubeSongData;
+import jukebox.youtube.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -50,7 +47,9 @@ public class Main {
     private void initComponents() {
         GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
         googleSheetDataFetcher = new GoogleSheetDataFetcher(googleSheetDataParser);
-        youtubeSearchDataFetcher = new YoutubeSearchDataFetcher();
+
+        YoutubeSearchResponseParser youtubeSearchResponseParser = new YoutubeSearchResponseParser();
+        youtubeSearchDataFetcher = new YoutubeSearchDataFetcher(youtubeSearchResponseParser);
     }
 
     // TODO: 2019-08-04 optimize everything (concurrency)
