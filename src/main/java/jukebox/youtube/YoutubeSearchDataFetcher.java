@@ -3,20 +3,15 @@ package jukebox.youtube;
 import jukebox.Util;
 import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
-import jukebox.youtube.response.*;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static jukebox.youtube.YoutubeParserException.*;
+import static jukebox.youtube.YoutubeParserException.SEARCH_QUERY_CREATION_ERROR;
 
 public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearchInfo, YoutubeSearchData> {
 

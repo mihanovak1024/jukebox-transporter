@@ -30,8 +30,7 @@ public class YoutubeSearchResponseParser {
     private String getRequestContextJson(String searchResultHtml) {
         Matcher matcher = regexPattern.matcher(searchResultHtml);
         if (matcher.find()) {
-            String responseJson = matcher.group(CONTENT_JSON_RESPONSE_GROUP);
-            return responseJson;
+            return matcher.group(CONTENT_JSON_RESPONSE_GROUP);
         }
         throw new YoutubeParserException(SEARCH_JSON_RESPONSE_PARSE_ERROR);
     }
@@ -55,9 +54,7 @@ public class YoutubeSearchResponseParser {
                                     for (ItemSectionContents itemSectionContents : itemSectionContentList) {
                                         List<VideoRenderer> itemSectionVideoRenderers = itemSectionContents.getVideoRenderer();
                                         if (!Util.isNullOrEmpty(itemSectionVideoRenderers)) {
-                                            for (VideoRenderer itemSectionVideoRenderer : itemSectionVideoRenderers) {
-                                                videoRenderers.add(itemSectionVideoRenderer);
-                                            }
+                                            videoRenderers.addAll(itemSectionVideoRenderers);
                                         }
                                     }
                                     return videoRenderers;
