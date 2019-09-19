@@ -77,7 +77,7 @@ public class Main {
                             .YoutubeSearchInfoBuilder()
                             .artist(artist)
                             .song(song)
-                            .previousLinks(musicData.getAllYoutubeVideoLinks())
+                            .previousUrls(musicData.getAllYoutubeVideoUrls())
                             .build();
                     recommendYoutubeSong(youtubeSearchInfo);
                     break;

@@ -20,11 +20,11 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
     @VisibleForTesting
     static final int GOOGLE_SHEET_COLUMN_TITLE = 2;
     @VisibleForTesting
-    static final int GOOGLE_SHEET_COLUMN_LINK = 3;
+    static final int GOOGLE_SHEET_COLUMN_URL = 3;
     @VisibleForTesting
     static final int GOOGLE_SHEET_COLUMN_DIRECTORY = 4;
     @VisibleForTesting
-    static final int GOOGLE_SHEET_COLUMN_LINK_LIST = 5;
+    static final int GOOGLE_SHEET_COLUMN_URL_LIST = 5;
     @VisibleForTesting
     static final int GOOGLE_SHEET_COLUMN_STATUS = 6;
 
@@ -46,16 +46,16 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
 
         String artist = stringData.get(GOOGLE_SHEET_COLUMN_ARTIST);
         String title = stringData.get(GOOGLE_SHEET_COLUMN_TITLE);
-        String link = stringData.get(GOOGLE_SHEET_COLUMN_LINK);
+        String url = stringData.get(GOOGLE_SHEET_COLUMN_URL);
         String directory = stringData.get(GOOGLE_SHEET_COLUMN_DIRECTORY);
 
         String statusString = stringData.get(GOOGLE_SHEET_COLUMN_STATUS);
         GoogleSheetStatus status = GoogleSheetStatus.getStatusFromName(statusString);
 
-        String allLinksListString = stringData.get(GOOGLE_SHEET_COLUMN_LINK_LIST);
-        List<String> allLinkList = new ArrayList<>();
-        if (!Util.isNullOrEmpty(allLinksListString)) {
-            allLinkList = new ArrayList<>(Arrays.asList(allLinksListString.split(",")));
+        String allUrlsListString = stringData.get(GOOGLE_SHEET_COLUMN_URL_LIST);
+        List<String> allUrlList = new ArrayList<>();
+        if (!Util.isNullOrEmpty(allUrlsListString)) {
+            allUrlList = new ArrayList<>(Arrays.asList(allUrlsListString.split(",")));
         }
 
         return new GoogleSheetData(
@@ -63,9 +63,9 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
                 artist,
                 song,
                 title,
-                link,
+                url,
                 directory,
-                allLinkList
+                allUrlList
         );
     }
 

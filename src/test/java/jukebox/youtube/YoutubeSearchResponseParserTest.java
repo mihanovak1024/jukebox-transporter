@@ -36,7 +36,7 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
                 .YoutubeSearchInfoBuilder()
                 .song("randomSong")
                 .artist("randomArtist")
-                .previousLinks(null)
+                .previousUrls(null)
                 .build();
 
         // when
@@ -58,7 +58,7 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
                 .YoutubeSearchInfoBuilder()
                 .song("randomSong")
                 .artist("randomArtist")
-                .previousLinks(null)
+                .previousUrls(null)
                 .build();
 
         // when
@@ -80,7 +80,7 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
                 .YoutubeSearchInfoBuilder()
                 .song("randomSong")
                 .artist("randomArtist")
-                .previousLinks(null)
+                .previousUrls(null)
                 .build();
 
         // when
@@ -108,7 +108,7 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
                 .YoutubeSearchInfoBuilder()
                 .song("randomSong")
                 .artist("randomArtist")
-                .previousLinks(null)
+                .previousUrls(null)
                 .build();
 
         // when
@@ -118,7 +118,7 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
     }
 
     @Test
-    public void createYoutubeSearchDataFromResponse_validHtmlResponse_validSongAndLink() throws IOException {
+    public void createYoutubeSearchDataFromResponse_validHtmlResponse_validSongAndUrl() throws IOException {
         // given
         String responseHtml = HtmlResultConstants.VALID_HTML_RESPONSE_ONE_VIDEO_RENDERER;
         YoutubeSearchInfo youtubeSearchInfo = new YoutubeSearchInfo
@@ -132,20 +132,20 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
 
         // then
         assertThat(youtubeSearchData.getTitle(), equalTo(HtmlResultConstants.VALID_HTML_RESPONSE_FIRST_SONG_NAME));
-        assertThat(youtubeSearchData.getYoutubeLink(), equalTo(String.format(YoutubeConstants.VIDEO_URL_FORMAT, HtmlResultConstants.VALID_HTML_RESPONSE_FIRST_SONG_VIDEO_ID)));
+        assertThat(youtubeSearchData.getYoutubeUrl(), equalTo(String.format(YoutubeConstants.VIDEO_URL_FORMAT, HtmlResultConstants.VALID_HTML_RESPONSE_FIRST_SONG_VIDEO_ID)));
     }
 
     @Test
-    public void createYoutubeSearchDataFromResponse_validHtmlResponseWithPreviousLinks_validSecondSongAndLink() throws IOException {
+    public void createYoutubeSearchDataFromResponse_validHtmlResponseWithPreviousUrls_validSecondSongAndUrl() throws IOException {
         // given
         String responseHtml = HtmlResultConstants.VALID_HTML_RESPONSE_TWO_VIDEO_RENDERERS;
-        List<String> previousLinks = new ArrayList<>();
-        previousLinks.add(String.format(YoutubeConstants.VIDEO_URL_FORMAT, HtmlResultConstants.VALID_HTML_RESPONSE_FIRST_SONG_VIDEO_ID));
+        List<String> previousUrls = new ArrayList<>();
+        previousUrls.add(String.format(YoutubeConstants.VIDEO_URL_FORMAT, HtmlResultConstants.VALID_HTML_RESPONSE_FIRST_SONG_VIDEO_ID));
         YoutubeSearchInfo youtubeSearchInfo = new YoutubeSearchInfo
                 .YoutubeSearchInfoBuilder()
                 .song("randomSong")
                 .artist("randomArtist")
-                .previousLinks(previousLinks)
+                .previousUrls(previousUrls)
                 .build();
 
         // when
@@ -153,24 +153,24 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
 
         // then
         assertThat(youtubeSearchData.getTitle(), equalTo(HtmlResultConstants.VALID_HTML_RESPONSE_SECOND_SONG_NAME));
-        assertThat(youtubeSearchData.getYoutubeLink(), equalTo(String.format(YoutubeConstants.VIDEO_URL_FORMAT, HtmlResultConstants.VALID_HTML_RESPONSE_SECOND_SONG_VIDEO_ID)));
+        assertThat(youtubeSearchData.getYoutubeUrl(), equalTo(String.format(YoutubeConstants.VIDEO_URL_FORMAT, HtmlResultConstants.VALID_HTML_RESPONSE_SECOND_SONG_VIDEO_ID)));
     }
 
     @Test
-    public void createYoutubeSearchDataFromResponse_validHtmlResponseWithPreviousLinks_noThirdOptionThrowException() throws IOException {
+    public void createYoutubeSearchDataFromResponse_validHtmlResponseWithPreviousUrls_noThirdOptionThrowException() throws IOException {
         // given
         expectedException.expect(YoutubeParserException.class);
         expectedException.expectMessage(YoutubeParserException.SEARCH_DATA_VIDEO_RENDERER_PARSE_ERROR);
 
         String responseHtml = HtmlResultConstants.VALID_HTML_RESPONSE_TWO_VIDEO_RENDERERS;
-        List<String> previousLinks = new ArrayList<>();
-        previousLinks.add(String.format(YoutubeConstants.VIDEO_URL_FORMAT, HtmlResultConstants.VALID_HTML_RESPONSE_FIRST_SONG_VIDEO_ID));
-        previousLinks.add(String.format(YoutubeConstants.VIDEO_URL_FORMAT, HtmlResultConstants.VALID_HTML_RESPONSE_SECOND_SONG_VIDEO_ID));
+        List<String> previousUrls = new ArrayList<>();
+        previousUrls.add(String.format(YoutubeConstants.VIDEO_URL_FORMAT, HtmlResultConstants.VALID_HTML_RESPONSE_FIRST_SONG_VIDEO_ID));
+        previousUrls.add(String.format(YoutubeConstants.VIDEO_URL_FORMAT, HtmlResultConstants.VALID_HTML_RESPONSE_SECOND_SONG_VIDEO_ID));
         YoutubeSearchInfo youtubeSearchInfo = new YoutubeSearchInfo
                 .YoutubeSearchInfoBuilder()
                 .song("randomSong")
                 .artist("randomArtist")
-                .previousLinks(previousLinks)
+                .previousUrls(previousUrls)
                 .build();
 
         // when

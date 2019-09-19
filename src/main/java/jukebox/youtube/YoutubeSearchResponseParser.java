@@ -24,7 +24,7 @@ public class YoutubeSearchResponseParser {
         YoutubeSearchResponse youtubeSearchResponse = Util.readJSONToObject(requestContextJson, YoutubeSearchResponse.class);
 
         List<VideoRenderer> videoRenderers = getVideoRendererList(youtubeSearchResponse);
-        return createYoutubeSearchDataFromVideoRenderer(videoRenderers, youtubeSearchInfo.getPreviousLinks());
+        return createYoutubeSearchDataFromVideoRenderer(videoRenderers, youtubeSearchInfo.getPreviousUrls());
     }
 
     private String getRequestContextJson(String searchResultHtml) {
@@ -68,9 +68,9 @@ public class YoutubeSearchResponseParser {
         throw new YoutubeParserException(SEARCH_DATA_PARSE_ERROR);
     }
 
-    private YoutubeSearchData createYoutubeSearchDataFromVideoRenderer(List<VideoRenderer> videoRenderers, List<String> rejectedVideoLinks) throws YoutubeParserException {
-        YoutubeLinkUtils youtubeLinkUtils = YoutubeLinkUtils.getInstance();
-        List<String> rejectedVideoIds = youtubeLinkUtils.transformVideoLinkListToVideoIdList(rejectedVideoLinks);
+    private YoutubeSearchData createYoutubeSearchDataFromVideoRenderer(List<VideoRenderer> videoRenderers, List<String> rejectedVideoUrls) throws YoutubeParserException {
+        YoutubeUrlUtils youtubeUrlUtils = YoutubeUrlUtils.getInstance();
+        List<String> rejectedVideoIds = youtubeUrlUtils.transformVideoUrlListToVideoIdList(rejectedVideoUrls);
 
         for (VideoRenderer videoRenderer : videoRenderers) {
             String currentVideoId = videoRenderer.getVideoId();
@@ -89,8 +89,8 @@ public class YoutubeSearchResponseParser {
                 System.out.println("Video title is null/empty. Skipping this one.");
                 continue;
             }
-            String currentVideoLink = youtubeLinkUtils.createLinkFromVideoId(currentVideoId);
-            return new YoutubeSearchData(titleString, currentVideoLink);
+            String currentVideoUrl = youtubeUrlUtils.createUrlFromVideoId(currentVideoId);
+            return new YoutubeSearchData(titleString, currentVideoUrl);
         }
         throw new YoutubeParserException(SEARCH_DATA_VIDEO_RENDERER_PARSE_ERROR);
     }

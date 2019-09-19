@@ -3,11 +3,11 @@ package jukebox.youtube;
 public class YoutubeSearchData {
 
     private String title;
-    private String youtubeLink;
+    private String youtubeUrl;
 
-    public YoutubeSearchData(String title, String youtubeLink) {
+    public YoutubeSearchData(String title, String youtubeUrl) {
         this.title = title;
-        this.youtubeLink = youtubeLink;
+        this.youtubeUrl = youtubeUrl;
     }
 
     public String getTitle() {
@@ -18,11 +18,11 @@ public class YoutubeSearchData {
         this.title = title;
     }
 
-    public String getYoutubeLink() {
-        return youtubeLink;
+    public String getYoutubeUrl() {
+        return youtubeUrl;
     }
 
-    public void setYoutubeLink(String youtubeLink) {
-        this.youtubeLink = youtubeLink;
+    public void setYoutubeUrl(String youtubeUrl) {
+        this.youtubeUrl = youtubeUrl;
     }
 }
