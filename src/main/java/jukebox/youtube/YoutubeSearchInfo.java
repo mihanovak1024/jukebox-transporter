@@ -6,16 +6,16 @@ import java.util.List;
 public class YoutubeSearchInfo {
     private final String artist;
     private final String song;
-    private final List<String> previousLinks;
+    private final List<String> previousUrls;
 
     private YoutubeSearchInfo(YoutubeSearchInfoBuilder builder) {
         this.artist = builder.artist;
         this.song = builder.song;
-        this.previousLinks = builder.previousLinks;
+        this.previousUrls = builder.previousUrls;
     }
 
-    public List<String> getPreviousLinks() {
-        return previousLinks;
+    public List<String> getPreviousUrls() {
+        return previousUrls;
     }
 
     public String getArtist() {
@@ -29,7 +29,7 @@ public class YoutubeSearchInfo {
     public static class YoutubeSearchInfoBuilder {
         private String artist;
         private String song;
-        private List<String> previousLinks = new ArrayList<>();
+        private List<String> previousUrls = new ArrayList<>();
 
         public YoutubeSearchInfoBuilder artist(String artist) {
             this.artist = artist;
@@ -41,8 +41,8 @@ public class YoutubeSearchInfo {
             return this;
         }
 
-        public YoutubeSearchInfoBuilder previousLinks(List<String> previousLinks) {
-            this.previousLinks = previousLinks;
+        public YoutubeSearchInfoBuilder previousUrls(List<String> previousUrls) {
+            this.previousUrls = previousUrls;
             return this;
         }
 

@@ -5,6 +5,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
+/**
+ * Retrofit service for creating a request to Youtube video search.
+ */
 interface YoutubeService {
 
     @Headers(YoutubeConstants.HARDCODED_BROWSER_USER_AGENT)

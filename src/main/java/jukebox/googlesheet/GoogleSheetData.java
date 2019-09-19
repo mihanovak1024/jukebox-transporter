@@ -8,18 +8,18 @@ public class GoogleSheetData {
     private final String artist;
     private final String song;
     private final String youtubeVideoTitle;
-    private final String youtubeVideoLink;
+    private final String youtubeVideoUrl;
     private final String directory;
-    private final List<String> allYoutubeVideoLinks;
+    private final List<String> allYoutubeVideoUrls;
 
-    public GoogleSheetData(GoogleSheetStatus googleSheetStatus, String artist, String song, String youtubeVideoTitle, String youtubeVideoLink, String directory, List<String> allYoutubeVideoLinks) {
+    public GoogleSheetData(GoogleSheetStatus googleSheetStatus, String artist, String song, String youtubeVideoTitle, String youtubeVideoUrl, String directory, List<String> allYoutubeVideoUrls) {
         this.googleSheetStatus = googleSheetStatus;
         this.artist = artist;
         this.song = song;
         this.youtubeVideoTitle = youtubeVideoTitle;
-        this.youtubeVideoLink = youtubeVideoLink;
+        this.youtubeVideoUrl = youtubeVideoUrl;
         this.directory = directory;
-        this.allYoutubeVideoLinks = allYoutubeVideoLinks;
+        this.allYoutubeVideoUrls = allYoutubeVideoUrls;
     }
 
     public GoogleSheetStatus getGoogleSheetStatus() {
@@ -38,15 +38,15 @@ public class GoogleSheetData {
         return youtubeVideoTitle;
     }
 
-    public String getYoutubeVideoLink() {
-        return youtubeVideoLink;
+    public String getYoutubeVideoUrl() {
+        return youtubeVideoUrl;
     }
 
     public String getDirectory() {
         return directory;
     }
 
-    public List<String> getAllYoutubeVideoLinks() {
-        return allYoutubeVideoLinks;
+    public List<String> getAllYoutubeVideoUrls() {
+        return allYoutubeVideoUrls;
     }
 }
