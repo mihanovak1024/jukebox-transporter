@@ -32,7 +32,7 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
     public void fetchDataAsync(YoutubeSearchInfo youtubeSearchInfo, NetworkDataCallback<YoutubeSearchData> callback, ExecutorService executorService) {
         executorService.execute(() -> {
             try {
-                YoutubeSearchData youtubeSearchData = createRequest(youtubeSearchInfo);
+                YoutubeSearchData youtubeSearchData = getSearchDataFromWeb(youtubeSearchInfo);
                 callback.onDataReceived(youtubeSearchData);
             } catch (Exception e) { // TODO: 2019-08-29 more specific exception
                 callback.onFailure("Fetch data async error"); // TODO: 2019-08-29 more specific error
@@ -44,21 +44,25 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
     public YoutubeSearchData fetchData(YoutubeSearchInfo youtubeSearchInfo) {
         // TODO: 2019-09-04 change this
         try {
-            return createRequest(youtubeSearchInfo);
+            return getSearchDataFromWeb(youtubeSearchInfo);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private YoutubeSearchData createRequest(YoutubeSearchInfo youtubeSearchInfo) throws IOException {
+    private YoutubeSearchData getSearchDataFromWeb(YoutubeSearchInfo youtubeSearchInfo) throws IOException {
+        String searchResultHtml = fireRequestAndReturnResponse(youtubeSearchInfo);
+
+        return youtubeSearchResponseParser.createYoutubeSearchDataFromHtmlResponse(searchResultHtml, youtubeSearchInfo);
+    }
+
+    private String fireRequestAndReturnResponse(YoutubeSearchInfo youtubeSearchInfo) throws IOException {
         String songSearchQuery = createArtistSongQuery(youtubeSearchInfo);
         Call<String> searchResultsHtmlCall = youtubeService.getSearchResult(songSearchQuery);
 
         Response<String> searchResultsHtmlResponse = searchResultsHtmlCall.execute();
-        String searchResultHtml = searchResultsHtmlResponse.body();
-
-        return youtubeSearchResponseParser.createYoutubeSearchDataFromResponse(searchResultHtml, youtubeSearchInfo);
+        return searchResultsHtmlResponse.body();
     }
 
     private String createArtistSongQuery(YoutubeSearchInfo youtubeSearchInfo) {

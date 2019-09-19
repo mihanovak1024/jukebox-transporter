@@ -18,7 +18,7 @@ public class YoutubeSearchResponseParser {
 
     private Pattern regexPattern = Pattern.compile(VIDEO_LIST_REGEX);
 
-    YoutubeSearchData createYoutubeSearchDataFromResponse(String searchResultHtml, YoutubeSearchInfo youtubeSearchInfo) throws IOException {
+    YoutubeSearchData createYoutubeSearchDataFromHtmlResponse(String searchResultHtml, YoutubeSearchInfo youtubeSearchInfo) throws IOException {
         String requestContextJson = getRequestContextJson(searchResultHtml);
 
         YoutubeSearchResponse youtubeSearchResponse = Util.readJSONToObject(requestContextJson, YoutubeSearchResponse.class);

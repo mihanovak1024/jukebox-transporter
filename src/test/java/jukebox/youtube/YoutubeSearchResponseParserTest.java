@@ -40,7 +40,7 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
                 .build();
 
         // when
-        youtubeSearchResponseParser.createYoutubeSearchDataFromResponse(responseHtml, youtubeSearchInfo);
+        youtubeSearchResponseParser.createYoutubeSearchDataFromHtmlResponse(responseHtml, youtubeSearchInfo);
 
         // then
     }
@@ -62,7 +62,7 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
                 .build();
 
         // when
-        youtubeSearchResponseParser.createYoutubeSearchDataFromResponse(responseHtml, youtubeSearchInfo);
+        youtubeSearchResponseParser.createYoutubeSearchDataFromHtmlResponse(responseHtml, youtubeSearchInfo);
 
         // then
     }
@@ -84,7 +84,7 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
                 .build();
 
         // when
-        youtubeSearchResponseParser.createYoutubeSearchDataFromResponse(responseHtml, youtubeSearchInfo);
+        youtubeSearchResponseParser.createYoutubeSearchDataFromHtmlResponse(responseHtml, youtubeSearchInfo);
 
         // then
     }
@@ -112,7 +112,7 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
                 .build();
 
         // when
-        youtubeSearchResponseParser.createYoutubeSearchDataFromResponse(responseHtml, youtubeSearchInfo);
+        youtubeSearchResponseParser.createYoutubeSearchDataFromHtmlResponse(responseHtml, youtubeSearchInfo);
 
         // then
     }
@@ -128,7 +128,7 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
                 .build();
 
         // when
-        YoutubeSearchData youtubeSearchData = youtubeSearchResponseParser.createYoutubeSearchDataFromResponse(responseHtml, youtubeSearchInfo);
+        YoutubeSearchData youtubeSearchData = youtubeSearchResponseParser.createYoutubeSearchDataFromHtmlResponse(responseHtml, youtubeSearchInfo);
 
         // then
         assertThat(youtubeSearchData.getTitle(), equalTo(HtmlResultConstants.VALID_HTML_RESPONSE_FIRST_SONG_NAME));
@@ -149,7 +149,7 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
                 .build();
 
         // when
-        YoutubeSearchData youtubeSearchData = youtubeSearchResponseParser.createYoutubeSearchDataFromResponse(responseHtml, youtubeSearchInfo);
+        YoutubeSearchData youtubeSearchData = youtubeSearchResponseParser.createYoutubeSearchDataFromHtmlResponse(responseHtml, youtubeSearchInfo);
 
         // then
         assertThat(youtubeSearchData.getTitle(), equalTo(HtmlResultConstants.VALID_HTML_RESPONSE_SECOND_SONG_NAME));
@@ -174,7 +174,7 @@ public class YoutubeSearchResponseParserTest extends BaseTest {
                 .build();
 
         // when
-        youtubeSearchResponseParser.createYoutubeSearchDataFromResponse(responseHtml, youtubeSearchInfo);
+        youtubeSearchResponseParser.createYoutubeSearchDataFromHtmlResponse(responseHtml, youtubeSearchInfo);
 
         // then
     }
