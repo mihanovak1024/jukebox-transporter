@@ -13,6 +13,10 @@ import java.util.concurrent.ExecutorService;
 
 import static jukebox.youtube.YoutubeParserException.SEARCH_QUERY_CREATION_ERROR;
 
+/**
+ * Class responsible for fetching Youtube search request data
+ * and returning a non-rejected Youtube song info based on the previous rejected songs.
+ */
 public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearchInfo, YoutubeSearchData> {
 
     private YoutubeService youtubeService;
@@ -51,12 +55,27 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
         return null;
     }
 
+    /**
+     * Fires a request based on {@link YoutubeSearchInfo} and
+     * creates the {@link YoutubeSearchData} with not yet rejected Youtube song.
+     *
+     * @param youtubeSearchInfo
+     * @return not yet rejected song info
+     * @throws IOException
+     */
     private YoutubeSearchData getSearchDataFromWeb(YoutubeSearchInfo youtubeSearchInfo) throws IOException {
         String searchResultHtml = fireRequestAndReturnResponse(youtubeSearchInfo);
 
         return youtubeSearchResponseParser.createYoutubeSearchDataFromHtmlResponse(searchResultHtml, youtubeSearchInfo);
     }
 
+    /**
+     * Creates a request to Youtube and returns the HTML response content.
+     *
+     * @param youtubeSearchInfo
+     * @return html response content
+     * @throws IOException
+     */
     private String fireRequestAndReturnResponse(YoutubeSearchInfo youtubeSearchInfo) throws IOException {
         String songSearchQuery = createArtistSongQuery(youtubeSearchInfo);
         Call<String> searchResultsHtmlCall = youtubeService.getSearchResult(songSearchQuery);
