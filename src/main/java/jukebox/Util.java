@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Util {
@@ -58,5 +59,32 @@ public class Util {
 
     public static boolean isNonEmpty(List list) {
         return !isNullOrEmpty(list);
+    }
+
+    public static boolean isDataOfTypeString(List data) {
+        boolean isOfTypeString = true;
+        for (Object value : data) {
+            if (!(value instanceof String)) {
+                isOfTypeString = false;
+                break;
+            }
+        }
+        return isOfTypeString;
+    }
+
+    public static List<String> replaceEmptyStringsWithNull(List<String> stringList) {
+        List<String> newStringList = new ArrayList<>(stringList.size());
+        for (String string : stringList) {
+            String nullOrNonEmptyString = changeToNullIfEmpty(string);
+            newStringList.add(nullOrNonEmptyString);
+        }
+        return newStringList;
+    }
+
+    public static String changeToNullIfEmpty(String string) {
+        if (string != null && string.length() == 0) {
+            return null;
+        }
+        return string;
     }
 }

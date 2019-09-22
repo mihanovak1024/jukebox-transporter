@@ -30,10 +30,10 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
 
     @Override
     public GoogleSheetData parseData(List data) throws GoogleSheetParserException {
-        if (!isDataOfTypeString(data)) {
+        if (!Util.isDataOfTypeString(data)) {
             throw new GoogleSheetParserException(GoogleSheetParserException.NOT_OF_TYPE_STRING);
         }
-        List<String> stringData = replaceEmptyStringsWithNull(data);
+        List<String> stringData = Util.replaceEmptyStringsWithNull(data);
 
         // Number of columns + added index field
         if (stringData.size() != GOOGLE_SHEET_NUMBER_OF_COLUMNS + 1) {
@@ -101,32 +101,5 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
             throw new GoogleSheetParserException(GoogleSheetParserException.INCORRECT_COLUMN_SIZE);
         }
         return googleSheetDataParsedList;
-    }
-
-    private boolean isDataOfTypeString(List data) {
-        boolean isOfTypeString = true;
-        for (Object value : data) {
-            if (!(value instanceof String)) {
-                isOfTypeString = false;
-                break;
-            }
-        }
-        return isOfTypeString;
-    }
-
-    private List<String> replaceEmptyStringsWithNull(List<String> stringList) {
-        List<String> newStringList = new ArrayList<>(stringList.size());
-        for (String string : stringList) {
-            String nullOrNonEmptyString = changeToNullIfEmpty(string);
-            newStringList.add(nullOrNonEmptyString);
-        }
-        return newStringList;
-    }
-
-    private String changeToNullIfEmpty(String string) {
-        if (string != null && string.length() == 0) {
-            return null;
-        }
-        return string;
     }
 }
