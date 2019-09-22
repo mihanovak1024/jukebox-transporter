@@ -77,15 +77,15 @@ public class YoutubeSearchResponseParser {
                     SectionListRenderer sectionListRenderer = primaryContents.getSectionListRenderer();
                     if (sectionListRenderer != null) {
                         List<SectionContents> sectionContentList = sectionListRenderer.getSectionContents();
-                        if (!Util.isNullOrEmpty(sectionContentList)) {
+                        if (Util.isNonEmpty(sectionContentList)) {
                             ItemSectionRenderer itemSectionRenderer = sectionContentList.get(0).getItemSectionRenderer();
                             if (itemSectionRenderer != null) {
                                 List<ItemSectionContents> itemSectionContentList = itemSectionRenderer.getItemSectionContents();
                                 List<VideoRenderer> videoRenderers = new ArrayList<>();
-                                if (!Util.isNullOrEmpty(itemSectionContentList)) {
+                                if (Util.isNonEmpty(itemSectionContentList)) {
                                     for (ItemSectionContents itemSectionContents : itemSectionContentList) {
                                         List<VideoRenderer> itemSectionVideoRenderers = itemSectionContents.getVideoRenderer();
-                                        if (!Util.isNullOrEmpty(itemSectionVideoRenderers)) {
+                                        if (Util.isNonEmpty(itemSectionVideoRenderers)) {
                                             videoRenderers.addAll(itemSectionVideoRenderers);
                                         }
                                     }
@@ -163,10 +163,10 @@ public class YoutubeSearchResponseParser {
         String titleString = null;
         if (title != null) {
             List<Run> runs = title.getRuns();
-            if (!Util.isNullOrEmpty(runs)) {
+            if (Util.isNonEmpty(runs)) {
                 for (Run run : runs) {
                     titleString = run.getText();
-                    if (!Util.isNullOrEmpty(titleString)) {
+                    if (Util.isNonEmpty(titleString)) {
                         break;
                     }
                 }

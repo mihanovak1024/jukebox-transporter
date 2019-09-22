@@ -68,7 +68,7 @@ public class GoogleSheetDataFetcher implements NetworkDataFetcher<LocalPropertie
                 .execute();
 
         List<List<Object>> values = googleSheetResponse.getValues();
-        if (!Util.isNullOrEmpty(values)) {
+        if (Util.isNonEmpty(values)) {
             googleSheetDataList = new ArrayList<>();
             for (List row : values) {
                 try {

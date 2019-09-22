@@ -54,7 +54,7 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
 
         String allUrlsListString = stringData.get(GOOGLE_SHEET_COLUMN_URL_LIST);
         List<String> allUrlList = new ArrayList<>();
-        if (!Util.isNullOrEmpty(allUrlsListString)) {
+        if (Util.isNonEmpty(allUrlsListString)) {
             allUrlList = new ArrayList<>(Arrays.asList(allUrlsListString.split(",")));
         }
 

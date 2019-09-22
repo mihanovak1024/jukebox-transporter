@@ -51,4 +51,12 @@ public class Util {
     public static boolean isNullOrEmpty(List list) {
         return list == null || list.size() <= 0;
     }
+
+    public static boolean isNonEmpty(String string) {
+        return !isNullOrEmpty(string);
+    }
+
+    public static boolean isNonEmpty(List list) {
+        return !isNullOrEmpty(list);
+    }
 }
