@@ -27,6 +27,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         String directory = "";
         String status = "New";
         String urlList = "";
+        int index = 0;
         List dataList = new ArrayList();
         dataList.add(GOOGLE_SHEET_COLUMN_ARTIST, artist);
         dataList.add(GOOGLE_SHEET_COLUMN_SONG, song);
@@ -35,6 +36,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
         dataList.add(GOOGLE_SHEET_COLUMN_URL_LIST, urlList);
         dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
+        dataList.add("" + index);
 
         // when
         GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
@@ -48,6 +50,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         assertThat(resultGoogleSheetData.getYoutubeVideoUrl(), nullValue());
         assertThat(resultGoogleSheetData.getDirectory(), nullValue());
         assertThat(resultGoogleSheetData.getAllYoutubeVideoUrls(), notNullValue());
+        assertThat(resultGoogleSheetData.getIndex(), equalTo(index));
     }
 
     @Test
@@ -60,6 +63,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         String directory = "Rock";
         String status = "Pending";
         String urlList = "";
+        int index = 0;
         List dataList = new ArrayList();
         dataList.add(GOOGLE_SHEET_COLUMN_ARTIST, artist);
         dataList.add(GOOGLE_SHEET_COLUMN_SONG, song);
@@ -68,6 +72,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
         dataList.add(GOOGLE_SHEET_COLUMN_URL_LIST, urlList);
         dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
+        dataList.add("" + index);
 
         // when
         GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
@@ -82,6 +87,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         assertThat(resultGoogleSheetData.getYoutubeVideoUrl(), equalTo(url));
         assertThat(resultGoogleSheetData.getDirectory(), equalTo(directory));
         assertThat(resultGoogleSheetData.getAllYoutubeVideoUrls(), equalTo(updatedUrlList));
+        assertThat(resultGoogleSheetData.getIndex(), equalTo(index));
     }
 
     @Test
@@ -94,6 +100,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         String directory = "Rock";
         String status = "Pending";
         String urlList = url + "," + url + "," + url;
+        int index = 0;
         List dataList = new ArrayList();
         dataList.add(GOOGLE_SHEET_COLUMN_ARTIST, artist);
         dataList.add(GOOGLE_SHEET_COLUMN_SONG, song);
@@ -102,6 +109,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
         dataList.add(GOOGLE_SHEET_COLUMN_URL_LIST, urlList);
         dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
+        dataList.add("" + index);
 
         // when
         GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
@@ -119,6 +127,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         assertThat(resultGoogleSheetData.getYoutubeVideoUrl(), equalTo(url));
         assertThat(resultGoogleSheetData.getDirectory(), equalTo(directory));
         assertThat(resultGoogleSheetData.getAllYoutubeVideoUrls(), equalTo(updatedUrlList));
+        assertThat(resultGoogleSheetData.getIndex(), equalTo(index));
     }
 
     @Test
@@ -131,6 +140,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         String directory = "Rock";
         String status = "Pending";
         String urlList = "";
+        int index = 0;
         List dataList = new ArrayList();
         dataList.add(GOOGLE_SHEET_COLUMN_ARTIST, artist);
         dataList.add(GOOGLE_SHEET_COLUMN_SONG, song);
@@ -139,6 +149,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
         dataList.add(GOOGLE_SHEET_COLUMN_URL_LIST, urlList);
         dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
+        dataList.add("" + index);
 
         // when
         GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
@@ -153,6 +164,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         assertThat(resultGoogleSheetData.getYoutubeVideoUrl(), equalTo(url));
         assertThat(resultGoogleSheetData.getDirectory(), equalTo(directory));
         assertThat(resultGoogleSheetData.getAllYoutubeVideoUrls(), equalTo(updatedUrlList));
+        assertThat(resultGoogleSheetData.getIndex(), equalTo(index));
     }
 
     @Test
@@ -165,6 +177,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         Integer directory = 5;
         String status = "Pending";
         String urlList = "";
+        int index = 0;
         List dataList = new ArrayList();
         dataList.add(GOOGLE_SHEET_COLUMN_ARTIST, artist);
         dataList.add(GOOGLE_SHEET_COLUMN_SONG, song);
@@ -173,6 +186,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
         dataList.add(GOOGLE_SHEET_COLUMN_URL_LIST, urlList);
         dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
+        dataList.add("" + index);
 
         exception.expect(GoogleSheetParserException.class);
         exception.expectMessage(GoogleSheetParserException.NOT_OF_TYPE_STRING);
@@ -192,6 +206,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         int directory = 5;
         String status = "Pending";
         String urlList = "";
+        int index = 0;
         List dataList = new ArrayList();
         dataList.add(GOOGLE_SHEET_COLUMN_ARTIST, artist);
         dataList.add(GOOGLE_SHEET_COLUMN_SONG, song);
@@ -200,6 +215,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
         dataList.add(GOOGLE_SHEET_COLUMN_URL_LIST, urlList);
         dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
+        dataList.add("" + index);
 
         exception.expect(GoogleSheetParserException.class);
         exception.expectMessage(GoogleSheetParserException.NOT_OF_TYPE_STRING);
@@ -220,6 +236,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         String status = "Pending";
         String urlList = "";
         String extraObject = "";
+        int index = 0;
         List dataList = new ArrayList();
         dataList.add(GOOGLE_SHEET_COLUMN_ARTIST, artist);
         dataList.add(GOOGLE_SHEET_COLUMN_SONG, song);
@@ -229,6 +246,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_URL_LIST, urlList);
         dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
         dataList.add(extraObject);
+        dataList.add("" + index);
 
         exception.expect(GoogleSheetParserException.class);
         exception.expectMessage(GoogleSheetParserException.INCORRECT_COLUMN_SIZE);
@@ -248,6 +266,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         String directory = "Rock";
         String status = "Pending";
         String urlList = "";
+        int index = 0;
         List dataList = new ArrayList();
         dataList.add(GOOGLE_SHEET_COLUMN_ARTIST, artist);
         dataList.add(GOOGLE_SHEET_COLUMN_SONG, song);
@@ -256,6 +275,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
         dataList.add(GOOGLE_SHEET_COLUMN_URL_LIST, urlList);
         dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
+        dataList.add("" + index);
 
         exception.expect(GoogleSheetParserException.class);
         exception.expectMessage(GoogleSheetParserException.SONG_NULL);
@@ -275,6 +295,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         String directory = "Rock";
         String status = "Random";
         String urlList = "";
+        int index = 0;
         List dataList = new ArrayList();
         dataList.add(GOOGLE_SHEET_COLUMN_ARTIST, artist);
         dataList.add(GOOGLE_SHEET_COLUMN_SONG, song);
@@ -283,6 +304,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         dataList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, directory);
         dataList.add(GOOGLE_SHEET_COLUMN_URL_LIST, urlList);
         dataList.add(GOOGLE_SHEET_COLUMN_STATUS, status);
+        dataList.add("" + index);
 
         exception.expect(GoogleSheetStatusException.class);
 

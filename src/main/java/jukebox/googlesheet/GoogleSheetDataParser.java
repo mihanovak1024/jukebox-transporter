@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> {
     @VisibleForTesting
-    static final int GOOGLE_SHEET_NUMBER_OF_COLUMNS = 7;
+    static final int GOOGLE_SHEET_NUMBER_OF_COLUMNS = 8; // 7 columns + index
 
     @VisibleForTesting
     static final int GOOGLE_SHEET_COLUMN_ARTIST = 0;
@@ -58,6 +58,8 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
             allUrlList = new ArrayList<>(Arrays.asList(allUrlsListString.split(",")));
         }
 
+        String index = stringData.get(stringData.size() - 1);
+
         return new GoogleSheetData(
                 status,
                 artist,
@@ -65,7 +67,8 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
                 title,
                 url,
                 directory,
-                allUrlList
+                allUrlList,
+                Integer.parseInt(index)
         );
     }
 

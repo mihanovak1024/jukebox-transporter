@@ -138,7 +138,8 @@ public class Main {
                 youtubeSearchData.getTitle(),
                 youtubeSearchData.getYoutubeUrl(),
                 googleSheetData.getDirectory(),
-                youtubeUrls
+                youtubeUrls,
+                googleSheetData.getIndex()
         );
 
         return updatedGoogleSheetData;

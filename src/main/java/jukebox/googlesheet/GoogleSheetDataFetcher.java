@@ -71,7 +71,9 @@ public class GoogleSheetDataFetcher implements NetworkDataFetcher<Object, List<G
         List<List<Object>> values = googleSheetResponse.getValues();
         if (Util.isNonEmpty(values)) {
             googleSheetDataList = new ArrayList<>();
-            for (List row : values) {
+            for (int index = 0; index < values.size(); index++) {
+                List<Object> row = values.get(index);
+                row.add(String.valueOf(index));
                 try {
                     GoogleSheetData googleSheetData = dataParser.parseData(row);
                     googleSheetDataList.add(googleSheetData);
