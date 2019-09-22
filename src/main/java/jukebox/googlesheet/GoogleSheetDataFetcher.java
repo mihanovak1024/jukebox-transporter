@@ -14,20 +14,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-public class GoogleSheetDataFetcher implements NetworkDataFetcher<LocalProperties, List<GoogleSheetData>> {
+public class GoogleSheetDataFetcher implements NetworkDataFetcher<Object, List<GoogleSheetData>> {
 
     private DataParser<GoogleSheetData, List> dataParser;
     private GoogleSheetConnector googleSheetConnector;
+    private LocalProperties localProperties;
 
-    public GoogleSheetDataFetcher(DataParser<GoogleSheetData, List> dataParser, GoogleSheetConnector googleSheetConnector) {
+    public GoogleSheetDataFetcher(DataParser<GoogleSheetData, List> dataParser, GoogleSheetConnector googleSheetConnector, LocalProperties localProperties) {
         this.dataParser = dataParser;
         this.googleSheetConnector = googleSheetConnector;
+        this.localProperties = localProperties;
     }
 
-    public void fetchDataAsync(LocalProperties localProperties, NetworkDataCallback<List<GoogleSheetData>> callback, ExecutorService executorService) {
+    public void fetchDataAsync(Object data, NetworkDataCallback<List<GoogleSheetData>> callback, ExecutorService executorService) {
         executorService.execute(() -> {
             try {
-                List<GoogleSheetData> googleSheetData = fetchGoogleSheetData(localProperties);
+                List<GoogleSheetData> googleSheetData = fetchGoogleSheetData();
                 callback.onDataReceived(googleSheetData);
             } catch (GeneralSecurityException | IOException e) {
                 e.printStackTrace();
@@ -36,10 +38,10 @@ public class GoogleSheetDataFetcher implements NetworkDataFetcher<LocalPropertie
         });
     }
 
-    public List<GoogleSheetData> fetchData(LocalProperties localProperties) {
+    public List<GoogleSheetData> fetchData(Object data) {
         List<GoogleSheetData> googleSheetDataList = null;
         try {
-            googleSheetDataList = fetchGoogleSheetData(localProperties);
+            googleSheetDataList = fetchGoogleSheetData();
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         }
@@ -51,12 +53,11 @@ public class GoogleSheetDataFetcher implements NetworkDataFetcher<LocalPropertie
      * Creates a request to Google Sheet API, parses the response with {@link GoogleSheetDataParser}
      * and returns the list of parsed response data.
      *
-     * @param localProperties
      * @return list of parsed response data for each row of Google Sheet
      * @throws GeneralSecurityException
      * @throws IOException
      */
-    private List<GoogleSheetData> fetchGoogleSheetData(LocalProperties localProperties) throws GeneralSecurityException, IOException {
+    private List<GoogleSheetData> fetchGoogleSheetData() throws GeneralSecurityException, IOException {
         List<GoogleSheetData> googleSheetDataList = null;
         final String spreadsheetId = localProperties.getSpreadsheetId();
         final String range = localProperties.getSpreadsheetRange();

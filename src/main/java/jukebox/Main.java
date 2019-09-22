@@ -18,8 +18,8 @@ public class Main {
     private ExecutorService executorService = Executors.newFixedThreadPool(EXECUTOR_THREAD_POOL_SIZE);
 
     private NetworkDataFetcher<YoutubeSearchInfo, YoutubeSearchData> youtubeSearchDataFetcher;
-    private NetworkDataFetcher<LocalProperties, List<GoogleSheetData>> googleSheetDataFetcher;
     private NetworkDataFetcher<String, YoutubeSongData> youtubeSongDataFetcher; // TODO: 2019-08-29 change String to actual request object if needed
+    private NetworkDataFetcher<Object, List<GoogleSheetData>> googleSheetDataFetcher;
 
     private NetworkDataUpdater googleSheetDataUpdater;
 
@@ -31,8 +31,8 @@ public class Main {
     private Main() {
         LocalProperties localProperties = readLocalPropertiesFromFile();
 
-        initComponents();
-        start(localProperties);
+        initComponents(localProperties);
+        start();
     }
 
     private LocalProperties readLocalPropertiesFromFile() {
@@ -45,11 +45,11 @@ public class Main {
         }
     }
 
-    private void initComponents() {
+    private void initComponents(LocalProperties localProperties) {
         GoogleSheetConnector googleSheetConnector = new GoogleSheetConnector();
 
         GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
-        googleSheetDataFetcher = new GoogleSheetDataFetcher(googleSheetDataParser, googleSheetConnector);
+        googleSheetDataFetcher = new GoogleSheetDataFetcher(googleSheetDataParser, googleSheetConnector, localProperties);
 
         YoutubeSearchResponseParser youtubeSearchResponseParser = new YoutubeSearchResponseParser();
         youtubeSearchDataFetcher = new YoutubeSearchDataFetcher(youtubeSearchResponseParser);
@@ -58,8 +58,8 @@ public class Main {
     }
 
     // TODO: 2019-08-04 optimize everything (concurrency)
-    private void start(LocalProperties localProperties) {
-        List<GoogleSheetData> musicDataList = getGoogleSheetData(localProperties);
+    private void start() {
+        List<GoogleSheetData> musicDataList = getGoogleSheetData();
 
         for (GoogleSheetData musicData : musicDataList) {
             GoogleSheetStatus musicDataStatus = musicData.getGoogleSheetStatus();
@@ -90,8 +90,8 @@ public class Main {
         }
     }
 
-    private List<GoogleSheetData> getGoogleSheetData(LocalProperties localProperties) {
-        List<GoogleSheetData> googleSheetData = googleSheetDataFetcher.fetchData(localProperties);
+    private List<GoogleSheetData> getGoogleSheetData() {
+        List<GoogleSheetData> googleSheetData = googleSheetDataFetcher.fetchData(null);
         return googleSheetData;
     }
 
