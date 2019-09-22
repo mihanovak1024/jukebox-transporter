@@ -29,7 +29,7 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
     static final int GOOGLE_SHEET_COLUMN_STATUS = 6;
 
     @Override
-    public GoogleSheetData parseData(List data) throws RuntimeException {
+    public GoogleSheetData parseData(List data) throws GoogleSheetParserException {
         if (!isDataOfTypeString(data)) {
             throw new GoogleSheetParserException(GoogleSheetParserException.NOT_OF_TYPE_STRING);
         }
