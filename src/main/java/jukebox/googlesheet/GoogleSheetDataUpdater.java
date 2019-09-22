@@ -1,8 +1,22 @@
 package jukebox.googlesheet;
 
-public interface GoogleSheetDataUpdater {
+import jukebox.network.NetworkDataUpdater;
 
-    void updateData();
+public class GoogleSheetDataUpdater implements NetworkDataUpdater {
 
-    void saveSongDetailsToBacklog();
+    private GoogleSheetConnector googleSheetConnector;
+
+    public GoogleSheetDataUpdater(GoogleSheetConnector googleSheetConnector) {
+        this.googleSheetConnector = googleSheetConnector;
+    }
+
+    @Override
+    public void updateData() {
+
+    }
+
+    @Override
+    public void saveSongDetailsToBacklog() {
+
+    }
 }

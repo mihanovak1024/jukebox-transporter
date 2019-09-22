@@ -1,6 +1,7 @@
 package jukebox;
 
 import jukebox.googlesheet.*;
+import jukebox.network.NetworkDataUpdater;
 import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
 import jukebox.youtube.*;
@@ -20,7 +21,7 @@ public class Main {
     private NetworkDataFetcher<LocalProperties, List<GoogleSheetData>> googleSheetDataFetcher;
     private NetworkDataFetcher<String, YoutubeSongData> youtubeSongDataFetcher; // TODO: 2019-08-29 change String to actual request object if needed
 
-    private GoogleSheetDataUpdater googleSheetDataUpdater;
+    private NetworkDataUpdater googleSheetDataUpdater;
 
     // TODO: 2019-08-04 create a cron job to start the main() program
     public static void main(String[] args) {
@@ -45,11 +46,15 @@ public class Main {
     }
 
     private void initComponents() {
+        GoogleSheetConnector googleSheetConnector = new GoogleSheetConnector();
+
         GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
-        googleSheetDataFetcher = new GoogleSheetDataFetcher(googleSheetDataParser);
+        googleSheetDataFetcher = new GoogleSheetDataFetcher(googleSheetDataParser, googleSheetConnector);
 
         YoutubeSearchResponseParser youtubeSearchResponseParser = new YoutubeSearchResponseParser();
         youtubeSearchDataFetcher = new YoutubeSearchDataFetcher(youtubeSearchResponseParser);
+
+        googleSheetDataUpdater = new GoogleSheetDataUpdater(googleSheetConnector);
     }
 
     // TODO: 2019-08-04 optimize everything (concurrency)
