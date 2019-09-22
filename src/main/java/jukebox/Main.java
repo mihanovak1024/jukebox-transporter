@@ -59,7 +59,7 @@ public class Main {
 
     // TODO: 2019-08-04 optimize everything (concurrency)
     private void start() {
-        List<GoogleSheetData> musicDataList = getGoogleSheetData();
+        List<GoogleSheetData> musicDataList = googleSheetDataFetcher.fetchData(null);
 
         for (GoogleSheetData musicData : musicDataList) {
             GoogleSheetStatus musicDataStatus = musicData.getGoogleSheetStatus();
@@ -88,18 +88,15 @@ public class Main {
                     break;
             }
         }
-    }
 
-    private List<GoogleSheetData> getGoogleSheetData() {
-        List<GoogleSheetData> googleSheetData = googleSheetDataFetcher.fetchData(null);
-        return googleSheetData;
+        googleSheetDataUpdater.updateBacklog(musicDataList);
     }
 
     private void recommendYoutubeSong(GoogleSheetData googleSheetData, YoutubeSearchInfo youtubeSearchInfo) {
         youtubeSearchDataFetcher.fetchDataAsync(youtubeSearchInfo, new NetworkDataCallback<>() {
             public void onDataReceived(YoutubeSearchData youtubeSearchData) {
-                GoogleSheetData updatedData = updateSearchData(googleSheetData, youtubeSearchData);
-                googleSheetDataUpdater.updateData(updatedData);
+                GoogleSheetData updatedGoogleSheetData = updateSearchData(googleSheetData, youtubeSearchData);
+                googleSheetDataUpdater.updateData(updatedGoogleSheetData);
             }
 
             public void onFailure(String error) {
@@ -116,9 +113,8 @@ public class Main {
                 // TODO: 2019-08-04 mp4 to mp3 conversion + artist&title setup
                 // TODO: 2019-08-04 upload file to drive + delete locally
 
-                // TODO: 2019-09-22 remove googleSheetData entry (update status to "terminate"?)
-                googleSheetDataUpdater.updateData(googleSheetData);
-                googleSheetDataUpdater.saveSongDetailsToBacklog();
+                GoogleSheetData updatedGoogleSheetData = updateDownloadedData(googleSheetData);
+                googleSheetDataUpdater.updateData(updatedGoogleSheetData);
             }
 
             public void onFailure(String error) {
@@ -143,5 +139,18 @@ public class Main {
         );
 
         return updatedGoogleSheetData;
+    }
+
+    private GoogleSheetData updateDownloadedData(GoogleSheetData googleSheetData) {
+        return new GoogleSheetData(
+                GoogleSheetStatus.DOWNLOADED,
+                googleSheetData.getArtist(),
+                googleSheetData.getSong(),
+                googleSheetData.getYoutubeVideoTitle(),
+                googleSheetData.getYoutubeVideoUrl(),
+                googleSheetData.getDirectory(),
+                googleSheetData.getAllYoutubeVideoUrls(),
+                googleSheetData.getIndex()
+        );
     }
 }

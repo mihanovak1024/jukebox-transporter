@@ -30,8 +30,8 @@ public class GoogleSheetDataUpdater implements NetworkDataUpdater<GoogleSheetDat
     }
 
     @Override
-    public void saveSongDetailsToBacklog() {
-
+    public void updateBacklog(List<GoogleSheetData> googleSheetDataList) {
+        moveDownloadedEntriesToBacklog(googleSheetDataList);
     }
 
     private void updateGoogleSheetCellData(GoogleSheetData googleSheetData) throws IOException, GeneralSecurityException {
@@ -56,5 +56,21 @@ public class GoogleSheetDataUpdater implements NetworkDataUpdater<GoogleSheetDat
         ArrayList arrayList = new ArrayList();
         arrayList.add(new ArrayList<>());
         return arrayList;
+    }
+
+    private void moveDownloadedEntriesToBacklog(List<GoogleSheetData> googleSheetDataList) {
+        List<GoogleSheetData> downloadedSongs = getDownloadedSongs(googleSheetDataList);
+        // TODO: 2019-09-22 remove downloaded song rows
+        // TODO: 2019-09-22 update backlog
+    }
+
+    private List<GoogleSheetData> getDownloadedSongs(List<GoogleSheetData> googleSheetDataList) {
+        List<GoogleSheetData> downloadedSongs = new ArrayList<>();
+        for (GoogleSheetData googleSheetData : googleSheetDataList) {
+            if (googleSheetData.getGoogleSheetStatus() == GoogleSheetStatus.DOWNLOADED) {
+                downloadedSongs.add(googleSheetData);
+            }
+        }
+        return downloadedSongs;
     }
 }
