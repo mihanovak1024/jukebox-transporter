@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> {
     @VisibleForTesting
-    static final int GOOGLE_SHEET_NUMBER_OF_COLUMNS = 8; // 7 columns + index
+    static final int GOOGLE_SHEET_NUMBER_OF_COLUMNS = 7;
 
     @VisibleForTesting
     static final int GOOGLE_SHEET_COLUMN_ARTIST = 0;
@@ -35,7 +35,8 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
         }
         List<String> stringData = replaceEmptyStringsWithNull(data);
 
-        if (stringData.size() != GOOGLE_SHEET_NUMBER_OF_COLUMNS) {
+        // Number of columns + added index field
+        if (stringData.size() != GOOGLE_SHEET_NUMBER_OF_COLUMNS + 1) {
             throw new GoogleSheetParserException(GoogleSheetParserException.INCORRECT_COLUMN_SIZE);
         }
 
@@ -70,6 +71,36 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
                 allUrlList,
                 Integer.parseInt(index)
         );
+    }
+
+    @Override
+    public List reverseParseData(GoogleSheetData googleSheetData) {
+        List<String> googleSheetDataParsedList = new ArrayList<>();
+
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_ARTIST, googleSheetData.getArtist());
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_SONG, googleSheetData.getSong());
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_TITLE, googleSheetData.getYoutubeVideoTitle());
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_URL, googleSheetData.getYoutubeVideoUrl());
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, googleSheetData.getDirectory());
+
+        StringBuilder youtubeUrlListStringBuilder = new StringBuilder();
+        List<String> allYoutubeVideoUrls = googleSheetData.getAllYoutubeVideoUrls();
+        for (int index = 0; index < allYoutubeVideoUrls.size(); index++) {
+            String youtubeVideoUrl = allYoutubeVideoUrls.get(index);
+            youtubeUrlListStringBuilder.append(youtubeVideoUrl);
+            if (index < allYoutubeVideoUrls.size() - 1) {
+                youtubeUrlListStringBuilder.append(",");
+            }
+        }
+
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_URL_LIST, youtubeUrlListStringBuilder.toString());
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_STATUS, googleSheetData.getGoogleSheetStatus().name());
+
+        // Google sheet columns - index field
+        if (googleSheetDataParsedList.size() != GOOGLE_SHEET_NUMBER_OF_COLUMNS) {
+            throw new GoogleSheetParserException(GoogleSheetParserException.INCORRECT_COLUMN_SIZE);
+        }
+        return googleSheetDataParsedList;
     }
 
     private boolean isDataOfTypeString(List data) {
