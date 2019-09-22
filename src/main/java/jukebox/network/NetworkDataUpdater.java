@@ -1,8 +1,8 @@
 package jukebox.network;
 
-public interface NetworkDataUpdater {
+public interface NetworkDataUpdater<T> {
 
-    void updateData();
+    void updateData(T dataToUpdate);
 
     void saveSongDetailsToBacklog();
 }

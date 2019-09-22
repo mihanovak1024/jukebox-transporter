@@ -1,9 +1,9 @@
 package jukebox;
 
 import jukebox.googlesheet.*;
-import jukebox.network.NetworkDataUpdater;
 import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
+import jukebox.network.NetworkDataUpdater;
 import jukebox.youtube.*;
 
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class Main {
     private NetworkDataFetcher<String, YoutubeSongData> youtubeSongDataFetcher; // TODO: 2019-08-29 change String to actual request object if needed
     private NetworkDataFetcher<Object, List<GoogleSheetData>> googleSheetDataFetcher;
 
-    private NetworkDataUpdater googleSheetDataUpdater;
+    private NetworkDataUpdater<GoogleSheetData> googleSheetDataUpdater;
 
     // TODO: 2019-08-04 create a cron job to start the main() program
     public static void main(String[] args) {
@@ -54,7 +54,7 @@ public class Main {
         YoutubeSearchResponseParser youtubeSearchResponseParser = new YoutubeSearchResponseParser();
         youtubeSearchDataFetcher = new YoutubeSearchDataFetcher(youtubeSearchResponseParser);
 
-        googleSheetDataUpdater = new GoogleSheetDataUpdater(googleSheetConnector);
+        googleSheetDataUpdater = new GoogleSheetDataUpdater(googleSheetConnector, localProperties);
     }
 
     // TODO: 2019-08-04 optimize everything (concurrency)
@@ -72,10 +72,10 @@ public class Main {
                             .artist(artist)
                             .song(song)
                             .build();
-                    recommendYoutubeSong(youtubeSearchInfo);
+                    recommendYoutubeSong(musicData, youtubeSearchInfo);
                     break;
                 case APPROVED:
-                    uploadSongToRepository();
+                    uploadSongToRepository(musicData);
                     break;
                 case REJECTED:
                     youtubeSearchInfo = new YoutubeSearchInfo
@@ -84,7 +84,7 @@ public class Main {
                             .song(song)
                             .previousUrls(musicData.getAllYoutubeVideoUrls())
                             .build();
-                    recommendYoutubeSong(youtubeSearchInfo);
+                    recommendYoutubeSong(musicData, youtubeSearchInfo);
                     break;
             }
         }
@@ -95,10 +95,11 @@ public class Main {
         return googleSheetData;
     }
 
-    private void recommendYoutubeSong(YoutubeSearchInfo youtubeSearchInfo) {
+    private void recommendYoutubeSong(GoogleSheetData googleSheetData, YoutubeSearchInfo youtubeSearchInfo) {
         youtubeSearchDataFetcher.fetchDataAsync(youtubeSearchInfo, new NetworkDataCallback<>() {
-            public void onDataReceived(YoutubeSearchData data) {
-                googleSheetDataUpdater.updateData();
+            public void onDataReceived(YoutubeSearchData youtubeSearchData) {
+                GoogleSheetData updatedData = updateSearchData(googleSheetData, youtubeSearchData);
+                googleSheetDataUpdater.updateData(updatedData);
             }
 
             public void onFailure(String error) {
@@ -107,14 +108,16 @@ public class Main {
         }, executorService);
     }
 
-    private void uploadSongToRepository() {
+    private void uploadSongToRepository(GoogleSheetData googleSheetData) {
         // TODO: 2019-08-29 request url/object
         String url = "todo";
         youtubeSongDataFetcher.fetchDataAsync(url, new NetworkDataCallback<>() {
-            public void onDataReceived(YoutubeSongData data) {
+            public void onDataReceived(YoutubeSongData youtubeSongData) {
                 // TODO: 2019-08-04 mp4 to mp3 conversion + artist&title setup
                 // TODO: 2019-08-04 upload file to drive + delete locally
-                googleSheetDataUpdater.updateData();
+
+                // TODO: 2019-09-22 remove googleSheetData entry (update status to "terminate"?)
+                googleSheetDataUpdater.updateData(googleSheetData);
                 googleSheetDataUpdater.saveSongDetailsToBacklog();
             }
 
@@ -122,5 +125,22 @@ public class Main {
                 // TODO: 2019-08-04 retry?
             }
         }, executorService);
+    }
+
+    private GoogleSheetData updateSearchData(GoogleSheetData googleSheetData, YoutubeSearchData youtubeSearchData) {
+        List<String> youtubeUrls = googleSheetData.getAllYoutubeVideoUrls();
+        youtubeUrls.add(youtubeSearchData.getYoutubeUrl());
+
+        GoogleSheetData updatedGoogleSheetData = new GoogleSheetData(
+                GoogleSheetStatus.PENDING,
+                googleSheetData.getArtist(),
+                googleSheetData.getSong(),
+                youtubeSearchData.getTitle(),
+                youtubeSearchData.getYoutubeUrl(),
+                googleSheetData.getDirectory(),
+                youtubeUrls
+        );
+
+        return updatedGoogleSheetData;
     }
 }
