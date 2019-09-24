@@ -74,7 +74,7 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
     }
 
     @Override
-    public List reverseParseData(GoogleSheetData googleSheetData) {
+    public List<String> reverseParseData(GoogleSheetData googleSheetData) {
         List<String> googleSheetDataParsedList = new ArrayList<>();
 
         googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_ARTIST, googleSheetData.getArtist());
