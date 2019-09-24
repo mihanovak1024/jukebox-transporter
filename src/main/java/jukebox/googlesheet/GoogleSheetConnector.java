@@ -12,6 +12,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
+import jukebox.LocalProperties;
 import jukebox.Util;
 
 import java.io.IOException;
@@ -25,6 +26,7 @@ import java.util.List;
  * Class responsible for connecting with Google Sheet API.
  */
 public class GoogleSheetConnector {
+    static final int SPREADSHEET_RANGE_MAX_HORIZONTAL = -1;
     private static final String APPLICATION_NAME = "JukeboxTransporter";
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
@@ -64,5 +66,27 @@ public class GoogleSheetConnector {
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+    }
+
+    String getSpreadsheetRangeFormat(LocalProperties localProperties, int indexHorizontalLimit, int indexVerticalStart) {
+        final String rangeName = localProperties.getSpreadsheetName();
+        final String rangeFormat = localProperties.getSpreadsheetRangeFormat();
+        final int rangeMinVertical = localProperties.getSpreadsheetRangeMinVertical();
+        final int rangeMaxHorizontal = localProperties.getSpreadsheetRangeMaxHorizontal();
+
+        if (indexHorizontalLimit == SPREADSHEET_RANGE_MAX_HORIZONTAL) {
+            indexHorizontalLimit = rangeMaxHorizontal;
+        }
+
+        if (indexHorizontalLimit > rangeMaxHorizontal || indexVerticalStart < 0) {
+            throw new GoogleSheetParserException(GoogleSheetParserException.OUT_OF_BOUND_SHEET_RANGE);
+        }
+
+        return String.format(
+                rangeFormat,
+                rangeName,
+                rangeMinVertical + indexVerticalStart,
+                indexHorizontalLimit
+        );
     }
 }

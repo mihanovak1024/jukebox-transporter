@@ -60,7 +60,7 @@ public class GoogleSheetDataFetcher implements NetworkDataFetcher<Object, List<G
     private List<GoogleSheetData> fetchGoogleSheetData() throws GeneralSecurityException, IOException {
         List<GoogleSheetData> googleSheetDataList = null;
         final String spreadsheetId = localProperties.getSpreadsheetId();
-        final String range = localProperties.getSpreadsheetRange();
+        final String range = googleSheetConnector.getSpreadsheetRangeFormat(localProperties, GoogleSheetConnector.SPREADSHEET_RANGE_MAX_HORIZONTAL, 0);
 
         Sheets googleSheetService = googleSheetConnector.createConnection();
         // Request to the GoogleSheet API
