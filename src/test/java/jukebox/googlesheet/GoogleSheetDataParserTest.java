@@ -313,4 +313,82 @@ public class GoogleSheetDataParserTest extends BaseTest {
         googleSheetDataParser.parseData(dataList);
     }
 
+    @Test
+    public void reverseParseData_validData_validStringListReturned() {
+        // given
+        GoogleSheetStatus sheetStatus = GoogleSheetStatus.PENDING;
+        String artist = "Dropkick Murphys";
+        String song = "Rose Tattoo";
+        String title = "Dropkick Murphys - \"Rose Tattoo\" (Video)";
+        String url = "https://www.youtube.com/watch?v=9d8SzG4FPyM";
+        String directory = "Rock";
+        List<String> urlList = new ArrayList<>();
+        urlList.add(url);
+        int index = 0;
+
+        GoogleSheetData googleSheetData = new GoogleSheetData(
+                sheetStatus,
+                artist,
+                song,
+                title,
+                url,
+                directory,
+                urlList,
+                index
+        );
+
+        // when
+        GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
+        List<String> googleSheetDataStringList = googleSheetDataParser.reverseParseData(googleSheetData);
+
+        // then
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_ARTIST), equalTo(artist));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_SONG), equalTo(song));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_TITLE), equalTo(title));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_URL), equalTo(url));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_DIRECTORY), equalTo(directory));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_URL_LIST), equalTo(url));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_STATUS), equalTo(sheetStatus.name()));
+    }
+
+    @Test
+    public void reverseParseData_validDataTwoUrls_validStringListReturned() {
+        // given
+        GoogleSheetStatus sheetStatus = GoogleSheetStatus.PENDING;
+        String artist = "Dropkick Murphys";
+        String song = "Rose Tattoo";
+        String title = "Dropkick Murphys - \"Rose Tattoo\" (Video)";
+        String url = "https://www.youtube.com/watch?v=9d8SzG4FPyM";
+        String url2 = "https://www.youtube.com/watch?v=9d8Szadadad";
+        String directory = "Rock";
+        List<String> urlList = new ArrayList<>();
+        urlList.add(url);
+        urlList.add(url2);
+        int index = 0;
+
+        GoogleSheetData googleSheetData = new GoogleSheetData(
+                sheetStatus,
+                artist,
+                song,
+                title,
+                url,
+                directory,
+                urlList,
+                index
+        );
+
+        // when
+        GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
+        List<String> googleSheetDataStringList = googleSheetDataParser.reverseParseData(googleSheetData);
+
+        // then
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_ARTIST), equalTo(artist));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_SONG), equalTo(song));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_TITLE), equalTo(title));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_URL), equalTo(url));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_DIRECTORY), equalTo(directory));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_URL_LIST), equalTo(String.format("%s,%s", url, url2)));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_STATUS), equalTo(sheetStatus.name()));
+    }
+
 }
