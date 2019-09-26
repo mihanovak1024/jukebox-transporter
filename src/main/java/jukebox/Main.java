@@ -1,6 +1,7 @@
 package jukebox;
 
 import jukebox.googlesheet.*;
+import jukebox.network.DataParser;
 import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
 import jukebox.network.NetworkDataUpdater;
@@ -48,13 +49,13 @@ public class Main {
     private void initComponents(LocalProperties localProperties) {
         GoogleSheetConnector googleSheetConnector = new GoogleSheetConnector();
 
-        GoogleSheetDataParser googleSheetDataParser = new GoogleSheetDataParser();
+        DataParser<GoogleSheetData, List> googleSheetDataParser = new GoogleSheetDataParser();
         googleSheetDataFetcher = new GoogleSheetDataFetcher(googleSheetDataParser, googleSheetConnector, localProperties);
 
         YoutubeSearchResponseParser youtubeSearchResponseParser = new YoutubeSearchResponseParser();
         youtubeSearchDataFetcher = new YoutubeSearchDataFetcher(youtubeSearchResponseParser);
 
-        googleSheetDataUpdater = new GoogleSheetDataUpdater(googleSheetConnector, localProperties);
+        googleSheetDataUpdater = new GoogleSheetDataUpdater(googleSheetConnector, googleSheetDataParser, localProperties);
     }
 
     // TODO: 2019-08-04 optimize everything (concurrency)
