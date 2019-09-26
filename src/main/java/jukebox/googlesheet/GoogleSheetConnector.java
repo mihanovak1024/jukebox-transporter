@@ -74,12 +74,12 @@ public class GoogleSheetConnector {
         final int rangeMinVertical = localProperties.getSpreadsheetRangeMinVertical();
         final int rangeMaxHorizontal = localProperties.getSpreadsheetRangeMaxHorizontal();
 
-        if (indexEnd == SPREADSHEET_RANGE_MAX_VERTICAL) {
-            indexEnd = rangeMaxHorizontal - rangeMinVertical;
+        if (indexEnd < SPREADSHEET_RANGE_MAX_VERTICAL || indexStart < 0) {
+            throw new GoogleSheetParserException(GoogleSheetParserException.OUT_OF_BOUND_SHEET_RANGE);
         }
 
-        if (indexEnd < 0 || indexStart < 0) {
-            throw new GoogleSheetParserException(GoogleSheetParserException.OUT_OF_BOUND_SHEET_RANGE);
+        if (indexEnd == SPREADSHEET_RANGE_MAX_VERTICAL) {
+            indexEnd = rangeMaxHorizontal - rangeMinVertical;
         }
 
         return String.format(
