@@ -348,7 +348,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_URL), equalTo(url));
         assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_DIRECTORY), equalTo(directory));
         assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_URL_LIST), equalTo(url));
-        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_STATUS), equalTo(sheetStatus.name()));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_STATUS), equalTo(sheetStatus.getSheetStatusName()));
     }
 
     @Test
@@ -388,7 +388,7 @@ public class GoogleSheetDataParserTest extends BaseTest {
         assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_URL), equalTo(url));
         assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_DIRECTORY), equalTo(directory));
         assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_URL_LIST), equalTo(String.format("%s,%s", url, url2)));
-        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_STATUS), equalTo(sheetStatus.name()));
+        assertThat(googleSheetDataStringList.get(GOOGLE_SHEET_COLUMN_STATUS), equalTo(sheetStatus.getSheetStatusName()));
     }
 
 }

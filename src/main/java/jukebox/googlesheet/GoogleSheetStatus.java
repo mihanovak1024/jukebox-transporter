@@ -24,6 +24,10 @@ public enum GoogleSheetStatus {
         this.sheetStatusName = sheetStatusName;
     }
 
+    public String getSheetStatusName() {
+        return sheetStatusName;
+    }
+
     public static GoogleSheetStatus getStatusFromName(String searchingSheetStatusName) throws RuntimeException {
         GoogleSheetStatus googleSheetStatus = googleSheetStatusIndexMap.get(searchingSheetStatusName);
         if (googleSheetStatus == null) {

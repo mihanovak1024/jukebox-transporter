@@ -1,8 +1,10 @@
 package jukebox.googlesheet;
 
 import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.model.UpdateValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import jukebox.LocalProperties;
+import jukebox.network.DataParser;
 import jukebox.network.NetworkDataUpdater;
 
 import java.io.IOException;
@@ -13,10 +15,12 @@ import java.util.List;
 public class GoogleSheetDataUpdater implements NetworkDataUpdater<GoogleSheetData> {
 
     private GoogleSheetConnector googleSheetConnector;
+    private DataParser<GoogleSheetData, List> dataParser;
     private final LocalProperties localProperties;
 
-    public GoogleSheetDataUpdater(GoogleSheetConnector googleSheetConnector, LocalProperties localProperties) {
+    public GoogleSheetDataUpdater(GoogleSheetConnector googleSheetConnector, DataParser dataParser, LocalProperties localProperties) {
         this.googleSheetConnector = googleSheetConnector;
+        this.dataParser = dataParser;
         this.localProperties = localProperties;
     }
 
@@ -37,25 +41,31 @@ public class GoogleSheetDataUpdater implements NetworkDataUpdater<GoogleSheetDat
     private void updateGoogleSheetCellData(GoogleSheetData googleSheetData) throws IOException, GeneralSecurityException {
         Sheets googleSheetService = googleSheetConnector.createConnection();
         final String spreadsheetId = localProperties.getSpreadsheetId();
-        final String range = localProperties.getSpreadsheetRange();
+        final String spreadsheetRange = googleSheetConnector.getSpreadsheetRangeFormat(
+                localProperties,
+                googleSheetData.getIndex(),
+                googleSheetData.getIndex()
+        );
 
         List<List<Object>> valuesToUpdate = getValueListToUpdate(googleSheetData);
 
         ValueRange body = new ValueRange()
                 .setValues(valuesToUpdate);
-        // TODO: 2019-09-22 WIP
-//        AppendValuesResponse result =
-//                googleSheetService.spreadsheets().values().append(spreadsheetId, range, body)
-//                        .setValueInputOption(valueInputOption)
-//                        .execute();
-//        System.out.printf("%d cells appended.", result.getUpdates().getUpdatedCells());
+
+        UpdateValuesResponse result =
+                googleSheetService.spreadsheets().values().update(spreadsheetId, spreadsheetRange, body)
+                        .setValueInputOption("RAW")
+                        .execute();
+        System.out.printf("%d cells appended.", result.getUpdatedCells());
     }
 
     private List<List<Object>> getValueListToUpdate(GoogleSheetData googleSheetData) {
         // TODO: 2019-09-22 add proper implementation
-        ArrayList arrayList = new ArrayList();
-        arrayList.add(new ArrayList<>());
-        return arrayList;
+        List singleGoogleSheetItemList = new ArrayList();
+        List googleSheetParsedData = dataParser.reverseParseData(googleSheetData);
+
+        singleGoogleSheetItemList.add(googleSheetParsedData);
+        return singleGoogleSheetItemList;
     }
 
     private void moveDownloadedEntriesToBacklog(List<GoogleSheetData> googleSheetDataList) {

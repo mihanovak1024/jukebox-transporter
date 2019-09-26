@@ -94,7 +94,7 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
         }
 
         googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_URL_LIST, youtubeUrlListStringBuilder.toString());
-        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_STATUS, googleSheetData.getGoogleSheetStatus().name());
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_STATUS, googleSheetData.getGoogleSheetStatus().getSheetStatusName());
 
         // Google sheet columns - index field
         if (googleSheetDataParsedList.size() != GOOGLE_SHEET_NUMBER_OF_COLUMNS) {
