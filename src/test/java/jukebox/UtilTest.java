@@ -27,7 +27,7 @@ public class UtilTest extends BaseTest {
     @Test
     public void readJSONToObject_validJson_validValues() throws IOException {
         // given
-        String jsonString = "{\"email\":\"lele@gmail.com\",\"password\":\"lalala\",\"spreadsheet_id\":\"123\",\"spreadsheet_range\":\"range\"}";
+        String jsonString = "{\"email\":\"lele@gmail.com\",\"password\":\"lalala\",\"spreadsheet_id\":\"123\",\"spreadsheet_range_format\":\"'%s'!A%d:G%d\",\"spreadsheet_name\":\"lele\",\"spreadsheet_range_min_vertical\":4,\"spreadsheet_range_max_horizontal\":10}";
 
         // when
         LocalProperties localPropertiesObject = Util.readJSONToObject(jsonString, LocalProperties.class);
@@ -36,13 +36,15 @@ public class UtilTest extends BaseTest {
         assertThat(localPropertiesObject.getEmail(), equalTo("lele@gmail.com"));
         assertThat(localPropertiesObject.getPassword(), equalTo("lalala"));
         assertThat(localPropertiesObject.getSpreadsheetId(), equalTo("123"));
-        assertThat(localPropertiesObject.getSpreadsheetRange(), equalTo("range"));
+        assertThat(localPropertiesObject.getSpreadsheetName(), equalTo("lele"));
+        assertThat(localPropertiesObject.getSpreadsheetRangeMinVertical(), equalTo(4));
+        assertThat(localPropertiesObject.getSpreadsheetRangeMaxHorizontal(), equalTo(10));
     }
 
     @Test
     public void readJSONToObject_extraJsonValue_validValuesNoException() throws IOException {
         // given
-        String jsonString = "{\"email\":\"lele@gmail.com\",\"password\":\"lalala\",\"spreadsheet_id\":\"123\",\"spreadsheet_range\":\"range\",\"extraValue\":\"extra\"}";
+        String jsonString = "{\"email\":\"lele@gmail.com\",\"password\":\"lalala\",\"spreadsheet_id\":\"123\",\"spreadsheet_range_format\":\"'%s'!A%d:G%d\",\"spreadsheet_name\":\"lele\",\"spreadsheet_range_min_vertical\":4,\"spreadsheet_range_max_horizontal\":10,\"extraValue\":\"extra\"}";
 
         // when
         LocalProperties localPropertiesObject = Util.readJSONToObject(jsonString, LocalProperties.class);
@@ -51,7 +53,9 @@ public class UtilTest extends BaseTest {
         assertThat(localPropertiesObject.getEmail(), equalTo("lele@gmail.com"));
         assertThat(localPropertiesObject.getPassword(), equalTo("lalala"));
         assertThat(localPropertiesObject.getSpreadsheetId(), equalTo("123"));
-        assertThat(localPropertiesObject.getSpreadsheetRange(), equalTo("range"));
+        assertThat(localPropertiesObject.getSpreadsheetName(), equalTo("lele"));
+        assertThat(localPropertiesObject.getSpreadsheetRangeMinVertical(), equalTo(4));
+        assertThat(localPropertiesObject.getSpreadsheetRangeMaxHorizontal(), equalTo(10));
     }
 
     @Test
@@ -66,7 +70,6 @@ public class UtilTest extends BaseTest {
         assertThat(localPropertiesObject.getEmail(), equalTo("lele@gmail.com"));
         assertThat(localPropertiesObject.getPassword(), equalTo("lalala"));
         assertThat(localPropertiesObject.getSpreadsheetId(), equalTo("123"));
-        assertThat(localPropertiesObject.getSpreadsheetRange(), nullValue());
     }
 
 }

@@ -87,13 +87,13 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
     private String createArtistSongQuery(YoutubeSearchInfo youtubeSearchInfo) {
         String artist = youtubeSearchInfo.getArtist();
         String song = youtubeSearchInfo.getSong();
-        if (!Util.isNullOrEmpty(artist)) {
-            if (!Util.isNullOrEmpty(song)) {
+        if (Util.isNonEmpty(artist)) {
+            if (Util.isNonEmpty(song)) {
                 return artist + "+" + song;
             } else {
                 return artist;
             }
-        } else if (!Util.isNullOrEmpty(song)) {
+        } else if (Util.isNonEmpty(song)) {
             return song;
         }
         throw new YoutubeParserException(SEARCH_QUERY_CREATION_ERROR);

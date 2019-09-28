@@ -4,6 +4,7 @@ import java.util.List;
 
 public class GoogleSheetData {
 
+    private final int index;
     private final GoogleSheetStatus googleSheetStatus;
     private final String artist;
     private final String song;
@@ -12,7 +13,7 @@ public class GoogleSheetData {
     private final String directory;
     private final List<String> allYoutubeVideoUrls;
 
-    public GoogleSheetData(GoogleSheetStatus googleSheetStatus, String artist, String song, String youtubeVideoTitle, String youtubeVideoUrl, String directory, List<String> allYoutubeVideoUrls) {
+    public GoogleSheetData(GoogleSheetStatus googleSheetStatus, String artist, String song, String youtubeVideoTitle, String youtubeVideoUrl, String directory, List<String> allYoutubeVideoUrls, int index) {
         this.googleSheetStatus = googleSheetStatus;
         this.artist = artist;
         this.song = song;
@@ -20,6 +21,7 @@ public class GoogleSheetData {
         this.youtubeVideoUrl = youtubeVideoUrl;
         this.directory = directory;
         this.allYoutubeVideoUrls = allYoutubeVideoUrls;
+        this.index = index;
     }
 
     public GoogleSheetStatus getGoogleSheetStatus() {
@@ -48,5 +50,9 @@ public class GoogleSheetData {
 
     public List<String> getAllYoutubeVideoUrls() {
         return allYoutubeVideoUrls;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

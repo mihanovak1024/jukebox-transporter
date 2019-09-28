@@ -43,11 +43,13 @@ class YoutubeUrlUtils {
         Matcher matcher = VIDEO_ID_REGEX_PATTERN.matcher(url);
         if (matcher.find()) {
             String videoId = matcher.group(VIDEO_ID_GROUP1);
-            if (Util.isNullOrEmpty(videoId)) {
-                videoId = matcher.group(VIDEO_ID_GROUP2);
-            }
-            if (!Util.isNullOrEmpty(videoId)) {
+            if (Util.isNonEmpty(videoId)) {
                 return videoId;
+            } else {
+                videoId = matcher.group(VIDEO_ID_GROUP2);
+                if (Util.isNonEmpty(videoId)) {
+                    return videoId;
+                }
             }
         }
         throw new YoutubeParserException(YoutubeParserException.URL_VIDEO_ID_PARSE_ERROR);

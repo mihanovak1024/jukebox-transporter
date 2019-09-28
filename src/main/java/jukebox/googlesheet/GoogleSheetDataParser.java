@@ -29,13 +29,14 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
     static final int GOOGLE_SHEET_COLUMN_STATUS = 6;
 
     @Override
-    public GoogleSheetData parseData(List data) throws RuntimeException {
-        if (!isDataOfTypeString(data)) {
+    public GoogleSheetData parseData(List data) throws GoogleSheetParserException {
+        if (!Util.isDataOfTypeString(data)) {
             throw new GoogleSheetParserException(GoogleSheetParserException.NOT_OF_TYPE_STRING);
         }
-        List<String> stringData = replaceEmptyStringsWithNull(data);
+        List<String> stringData = Util.replaceEmptyStringsWithNull(data);
 
-        if (stringData.size() != GOOGLE_SHEET_NUMBER_OF_COLUMNS) {
+        // Number of columns + added index field
+        if (stringData.size() != GOOGLE_SHEET_NUMBER_OF_COLUMNS + 1) {
             throw new GoogleSheetParserException(GoogleSheetParserException.INCORRECT_COLUMN_SIZE);
         }
 
@@ -54,9 +55,11 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
 
         String allUrlsListString = stringData.get(GOOGLE_SHEET_COLUMN_URL_LIST);
         List<String> allUrlList = new ArrayList<>();
-        if (!Util.isNullOrEmpty(allUrlsListString)) {
+        if (Util.isNonEmpty(allUrlsListString)) {
             allUrlList = new ArrayList<>(Arrays.asList(allUrlsListString.split(",")));
         }
+
+        String index = stringData.get(stringData.size() - 1);
 
         return new GoogleSheetData(
                 status,
@@ -65,34 +68,38 @@ public class GoogleSheetDataParser implements DataParser<GoogleSheetData, List> 
                 title,
                 url,
                 directory,
-                allUrlList
+                allUrlList,
+                Integer.parseInt(index)
         );
     }
 
-    private boolean isDataOfTypeString(List data) {
-        boolean isOfTypeString = true;
-        for (Object value : data) {
-            if (!(value instanceof String)) {
-                isOfTypeString = false;
-                break;
+    @Override
+    public List<String> reverseParseData(GoogleSheetData googleSheetData) {
+        List<String> googleSheetDataParsedList = new ArrayList<>();
+
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_ARTIST, googleSheetData.getArtist());
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_SONG, googleSheetData.getSong());
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_TITLE, googleSheetData.getYoutubeVideoTitle());
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_URL, googleSheetData.getYoutubeVideoUrl());
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_DIRECTORY, googleSheetData.getDirectory());
+
+        StringBuilder youtubeUrlListStringBuilder = new StringBuilder();
+        List<String> allYoutubeVideoUrls = googleSheetData.getAllYoutubeVideoUrls();
+        for (int index = 0; index < allYoutubeVideoUrls.size(); index++) {
+            String youtubeVideoUrl = allYoutubeVideoUrls.get(index);
+            youtubeUrlListStringBuilder.append(youtubeVideoUrl);
+            if (index < allYoutubeVideoUrls.size() - 1) {
+                youtubeUrlListStringBuilder.append(",");
             }
         }
-        return isOfTypeString;
-    }
 
-    private List<String> replaceEmptyStringsWithNull(List<String> stringList) {
-        List<String> newStringList = new ArrayList<>(stringList.size());
-        for (String string : stringList) {
-            String nullOrNonEmptyString = changeToNullIfEmpty(string);
-            newStringList.add(nullOrNonEmptyString);
-        }
-        return newStringList;
-    }
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_URL_LIST, youtubeUrlListStringBuilder.toString());
+        googleSheetDataParsedList.add(GOOGLE_SHEET_COLUMN_STATUS, googleSheetData.getGoogleSheetStatus().getSheetStatusName());
 
-    private String changeToNullIfEmpty(String string) {
-        if (string != null && string.length() == 0) {
-            return null;
+        // Google sheet columns - index field
+        if (googleSheetDataParsedList.size() != GOOGLE_SHEET_NUMBER_OF_COLUMNS) {
+            throw new GoogleSheetParserException(GoogleSheetParserException.INCORRECT_COLUMN_SIZE);
         }
-        return string;
+        return googleSheetDataParsedList;
     }
 }
