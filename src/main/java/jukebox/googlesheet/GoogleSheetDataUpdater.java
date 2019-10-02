@@ -30,6 +30,7 @@ public class GoogleSheetDataUpdater implements NetworkDataUpdater<GoogleSheetDat
             updateGoogleSheetCellData(googleSheetData);
         } catch (IOException | GeneralSecurityException e) {
             // TODO: 2019-09-22 handle exception
+            e.printStackTrace();
         }
     }
 
