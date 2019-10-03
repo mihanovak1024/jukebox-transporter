@@ -5,11 +5,12 @@ import jukebox.network.DataParser;
 import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
 import jukebox.network.NetworkDataUpdater;
-import jukebox.youtube.*;
 import jukebox.youtube.search.YoutubeSearchData;
 import jukebox.youtube.search.YoutubeSearchDataFetcher;
 import jukebox.youtube.search.YoutubeSearchInfo;
 import jukebox.youtube.search.YoutubeSearchResponseParser;
+import jukebox.youtube.song.YoutubeSongData;
+import jukebox.youtube.song.YoutubeSongFetcher;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +24,7 @@ public class Main {
     private ExecutorService executorService = Executors.newFixedThreadPool(EXECUTOR_THREAD_POOL_SIZE);
 
     private NetworkDataFetcher<YoutubeSearchInfo, YoutubeSearchData> youtubeSearchDataFetcher;
-    private NetworkDataFetcher<String, YoutubeSongData> youtubeSongDataFetcher; // TODO: 2019-08-29 change String to actual request object if needed
+    private NetworkDataFetcher<GoogleSheetData, YoutubeSongData> youtubeSongDataFetcher;
     private NetworkDataFetcher<Object, List<GoogleSheetData>> googleSheetDataFetcher;
 
     private NetworkDataUpdater<GoogleSheetData> googleSheetDataUpdater;
@@ -59,6 +60,8 @@ public class Main {
         YoutubeSearchResponseParser youtubeSearchResponseParser = new YoutubeSearchResponseParser();
         youtubeSearchDataFetcher = new YoutubeSearchDataFetcher(youtubeSearchResponseParser);
 
+        youtubeSongDataFetcher = new YoutubeSongFetcher();
+
         googleSheetDataUpdater = new GoogleSheetDataUpdater(googleSheetConnector, googleSheetDataParser, localProperties);
     }
 
@@ -67,6 +70,7 @@ public class Main {
         List<GoogleSheetData> musicDataList = googleSheetDataFetcher.fetchData(null);
 
         for (GoogleSheetData musicData : musicDataList) {
+            // TODO: 2019-10-03 start task concurrently?
             GoogleSheetStatus musicDataStatus = musicData.getGoogleSheetStatus();
             String artist = musicData.getArtist();
             String song = musicData.getSong();
@@ -111,10 +115,10 @@ public class Main {
     }
 
     private void uploadSongToRepository(GoogleSheetData googleSheetData) {
-        // TODO: 2019-08-29 request url/object
-        String url = "todo";
-        youtubeSongDataFetcher.fetchDataAsync(url, new NetworkDataCallback<>() {
-            public void onDataReceived(YoutubeSongData youtubeSongData) {
+        youtubeSongDataFetcher.fetchDataAsync(googleSheetData, new NetworkDataCallback<>() {
+            public void onDataReceived(YoutubeSongData yo) {
+
+
                 // TODO: 2019-08-04 mp4 to mp3 conversion + artist&title setup
                 // TODO: 2019-08-04 upload file to drive + delete locally
 
