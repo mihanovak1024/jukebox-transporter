@@ -1,8 +1,8 @@
-package jukebox.youtube.response;
+package jukebox.youtube.search.response;
 
 public class RootContents {
 
-    TwoColumnSearchResultsRenderer twoColumnSearchResultsRenderer;
+    public TwoColumnSearchResultsRenderer twoColumnSearchResultsRenderer;
 
     public RootContents() {
     }

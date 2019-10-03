@@ -1,8 +1,11 @@
-package jukebox.youtube;
+package jukebox.youtube.search;
 
 import jukebox.Util;
 import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
+import jukebox.youtube.YoutubeConstants;
+import jukebox.youtube.YoutubeParserException;
+import jukebox.youtube.YoutubeService;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;

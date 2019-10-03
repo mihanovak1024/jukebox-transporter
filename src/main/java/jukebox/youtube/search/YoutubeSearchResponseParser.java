@@ -1,7 +1,9 @@
-package jukebox.youtube;
+package jukebox.youtube.search;
 
 import jukebox.Util;
-import jukebox.youtube.response.*;
+import jukebox.youtube.YoutubeParserException;
+import jukebox.youtube.YoutubeUrlUtils;
+import jukebox.youtube.search.response.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ public class YoutubeSearchResponseParser {
      * @return YoutubeSearchData
      * @throws IOException
      */
-    YoutubeSearchData createYoutubeSearchDataFromHtmlResponse(String searchResultHtml, YoutubeSearchInfo youtubeSearchInfo) throws IOException {
+    public YoutubeSearchData createYoutubeSearchDataFromHtmlResponse(String searchResultHtml, YoutubeSearchInfo youtubeSearchInfo) throws IOException {
         String requestContextJson = getRequestContextJson(searchResultHtml);
 
         YoutubeSearchResponse youtubeSearchResponse = Util.readJSONToObject(requestContextJson, YoutubeSearchResponse.class);

@@ -6,6 +6,10 @@ import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
 import jukebox.network.NetworkDataUpdater;
 import jukebox.youtube.*;
+import jukebox.youtube.search.YoutubeSearchData;
+import jukebox.youtube.search.YoutubeSearchDataFetcher;
+import jukebox.youtube.search.YoutubeSearchInfo;
+import jukebox.youtube.search.YoutubeSearchResponseParser;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,5 +1,6 @@
-package jukebox.youtube.response;
+package jukebox.youtube.search.response;
 
+import jukebox.youtube.search.response.ItemSectionRenderer;
 public class SectionContents {
 
     private ItemSectionRenderer itemSectionRenderer;

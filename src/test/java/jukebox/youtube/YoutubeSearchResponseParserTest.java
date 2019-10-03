@@ -1,6 +1,9 @@
 package jukebox.youtube;
 
 import jukebox.BaseTest;
+import jukebox.youtube.search.YoutubeSearchData;
+import jukebox.youtube.search.YoutubeSearchInfo;
+import jukebox.youtube.search.YoutubeSearchResponseParser;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

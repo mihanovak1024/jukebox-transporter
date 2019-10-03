@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * Helper class for extracting video ids from Youtube video urls
  * or creating whole Youtube video urls out of video ids.
  */
-class YoutubeUrlUtils {
+public class YoutubeUrlUtils {
 
     private static final int VIDEO_ID_GROUP1 = 1;
     private static final int VIDEO_ID_GROUP2 = 2;
@@ -22,7 +22,7 @@ class YoutubeUrlUtils {
 
     private static YoutubeUrlUtils INSTANCE;
 
-    static YoutubeUrlUtils getInstance() {
+    public static YoutubeUrlUtils getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new YoutubeUrlUtils();
         }
@@ -36,7 +36,7 @@ class YoutubeUrlUtils {
      * @return video id
      * @throws YoutubeParserException
      */
-    String getVideoIdFromUrl(String url) throws YoutubeParserException {
+    public String getVideoIdFromUrl(String url) throws YoutubeParserException {
         if (Util.isNullOrEmpty(url)) {
             throw new YoutubeParserException(YoutubeParserException.URL_VIDEO_ID_PARSE_ERROR);
         }
@@ -61,7 +61,7 @@ class YoutubeUrlUtils {
      * @param videoId
      * @return Youtube video url
      */
-    String createUrlFromVideoId(String videoId) {
+    public String createUrlFromVideoId(String videoId) {
         if (Util.isNullOrEmpty(videoId)) {
             throw new YoutubeParserException(YoutubeParserException.URL_VIDEO_ID_PARSE_ERROR);
         }
@@ -74,7 +74,7 @@ class YoutubeUrlUtils {
      * @param youtubeVideoUrls
      * @return Youtube video id list
      */
-    List<String> transformVideoUrlListToVideoIdList(List<String> youtubeVideoUrls) {
+    public List<String> transformVideoUrlListToVideoIdList(List<String> youtubeVideoUrls) {
         List<String> youtubeVideoIds = new ArrayList<>();
         for (String youtubeVideoUrl : youtubeVideoUrls) {
             try {

@@ -1,4 +1,4 @@
-package jukebox.youtube;
+package jukebox.youtube.search;
 
 public class YoutubeSearchData {
 

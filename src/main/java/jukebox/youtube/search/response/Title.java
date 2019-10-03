@@ -1,4 +1,4 @@
-package jukebox.youtube.response;
+package jukebox.youtube.search.response;
 
 import java.util.List;
 
