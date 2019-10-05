@@ -25,14 +25,9 @@ public class YoutubeSearchDataFetcher implements NetworkDataFetcher<YoutubeSearc
     private YoutubeService youtubeService;
     private YoutubeSearchResponseParser youtubeSearchResponseParser;
 
-    public YoutubeSearchDataFetcher(YoutubeSearchResponseParser youtubeSearchResponseParser) {
+    public YoutubeSearchDataFetcher(YoutubeSearchResponseParser youtubeSearchResponseParser, YoutubeService youtubeService) {
         this.youtubeSearchResponseParser = youtubeSearchResponseParser;
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .baseUrl(YoutubeConstants.YOUTUBE_BASE_URL)
-                .build();
-
-        this.youtubeService = retrofit.create(YoutubeService.class);
+        this.youtubeService = youtubeService;
     }
 
     @Override

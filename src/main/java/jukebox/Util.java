@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +45,10 @@ public class Util {
 
     public static <T> T readJSONToObject(String jsonString, Class<T> clazz) throws IOException {
         return mapper.readValue(jsonString, clazz);
+    }
+
+    public static String decodeUrl(String encodedUrl) throws UnsupportedEncodingException {
+        return URLDecoder.decode(encodedUrl, StandardCharsets.UTF_8.name());
     }
 
     public static boolean isNullOrEmpty(String string) {

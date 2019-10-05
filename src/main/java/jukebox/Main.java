@@ -5,12 +5,16 @@ import jukebox.network.DataParser;
 import jukebox.network.NetworkDataCallback;
 import jukebox.network.NetworkDataFetcher;
 import jukebox.network.NetworkDataUpdater;
+import jukebox.youtube.YoutubeConstants;
+import jukebox.youtube.YoutubeService;
 import jukebox.youtube.search.YoutubeSearchData;
 import jukebox.youtube.search.YoutubeSearchDataFetcher;
 import jukebox.youtube.search.YoutubeSearchInfo;
 import jukebox.youtube.search.YoutubeSearchResponseParser;
 import jukebox.youtube.song.YoutubeSongData;
 import jukebox.youtube.song.YoutubeSongFetcher;
+import retrofit2.Retrofit;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
 import java.util.List;
@@ -54,13 +58,19 @@ public class Main {
     private void initComponents(LocalProperties localProperties) {
         GoogleSheetConnector googleSheetConnector = new GoogleSheetConnector();
 
+        YoutubeService youtubeService = new Retrofit.Builder()
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .baseUrl(YoutubeConstants.YOUTUBE_BASE_URL)
+                .build()
+                .create(YoutubeService.class);
+
         DataParser<GoogleSheetData, List> googleSheetDataParser = new GoogleSheetDataParser();
         googleSheetDataFetcher = new GoogleSheetDataFetcher(googleSheetDataParser, googleSheetConnector, localProperties);
 
         YoutubeSearchResponseParser youtubeSearchResponseParser = new YoutubeSearchResponseParser();
-        youtubeSearchDataFetcher = new YoutubeSearchDataFetcher(youtubeSearchResponseParser);
+        youtubeSearchDataFetcher = new YoutubeSearchDataFetcher(youtubeSearchResponseParser, youtubeService);
 
-        youtubeSongDataFetcher = new YoutubeSongFetcher();
+        youtubeSongDataFetcher = new YoutubeSongFetcher(youtubeService);
 
         googleSheetDataUpdater = new GoogleSheetDataUpdater(googleSheetConnector, googleSheetDataParser, localProperties);
     }
