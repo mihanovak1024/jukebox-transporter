@@ -3,9 +3,9 @@ package jukebox.youtube.song;
 // TODO: 2019-10-07 check if class is threadsafe
 public class YoutubeSongDecipherer {
 
-    private YoutubeSongDecipherer instance;
+    private static YoutubeSongDecipherer instance;
 
-    public YoutubeSongDecipherer getInstance() {
+    public static YoutubeSongDecipherer getInstance() {
         if (instance == null) {
             instance = new YoutubeSongDecipherer();
         }
@@ -21,7 +21,7 @@ public class YoutubeSongDecipherer {
     }
 
     public String getDecipheredSongInfo(String videoInfo) {
-        // TODO: 2019-10-07 implementation 
+        // TODO: 2019-10-07 implementation
         return "";
     }
 

@@ -53,8 +53,12 @@ public class YoutubeSongFetcher implements NetworkDataFetcher<GoogleSheetData, Y
             Response<String> videoInfoResponse = youtubeService.getVideoInfo(videoId).execute();
             String videoInfo = videoInfoResponse.body();
 
-            String doubleEncodedUrl = getMP4UrlFromVideoInfo(videoInfo);
-            url = doubleDecodeUrl(doubleEncodedUrl);
+            YoutubeSongDecipherer youtubeSongDecipherer = YoutubeSongDecipherer.getInstance();
+            if (youtubeSongDecipherer.isSongProtected(videoInfo)) {
+                url = getProtectedUrl(videoInfo);
+            } else {
+                url = getNonProtectedUrl(videoInfo);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             // TODO: 2019-10-05 handle this better
@@ -62,9 +66,14 @@ public class YoutubeSongFetcher implements NetworkDataFetcher<GoogleSheetData, Y
         return url;
     }
 
-    private String doubleDecodeUrl(String doubleEncodedUrl) throws UnsupportedEncodingException {
-        String encodedUrl = Util.decodeUrl(doubleEncodedUrl);
-        return Util.decodeUrl(encodedUrl);
+    private String getProtectedUrl(String videoInfo) {
+        // TODO: 2019-10-07 implement
+        return null;
+    }
+
+    private String getNonProtectedUrl(String videoInfo) throws UnsupportedEncodingException {
+        String doubleEncodedUrl = getMP4UrlFromVideoInfo(videoInfo);
+        return doubleDecodeUrl(doubleEncodedUrl);
     }
 
     private String getMP4UrlFromVideoInfo(String videoInfo) {
@@ -74,6 +83,11 @@ public class YoutubeSongFetcher implements NetworkDataFetcher<GoogleSheetData, Y
             url = matcher.group(URL_GROUP);
         }
         return url;
+    }
+
+    private String doubleDecodeUrl(String doubleEncodedUrl) throws UnsupportedEncodingException {
+        String encodedUrl = Util.decodeUrl(doubleEncodedUrl);
+        return Util.decodeUrl(encodedUrl);
     }
 
     private YoutubeSongData downloadYoutubeSong(String songUrl) {
