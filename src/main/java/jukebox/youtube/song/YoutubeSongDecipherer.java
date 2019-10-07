@@ -11,6 +11,7 @@ class YoutubeSongDecipherer {
     private static final int URL_GROUP = 1;
     private static final String YOUTUBE_INFO_STREAM_URL_REGEX = "url_encoded_fmt_stream_map.*?medium.*?url%3D(.*?)(%26|%2C)";
     private static final Pattern infoStreamUrlPattern = Pattern.compile(YOUTUBE_INFO_STREAM_URL_REGEX);
+    private static final String CONTAINS_CIPHER = "%22useCipher%22%3Atrue%2C";
 
     String getVideoDownloadLink(String videoInfo) throws UnsupportedEncodingException {
         if (isSongProtected(videoInfo)) {
@@ -20,9 +21,8 @@ class YoutubeSongDecipherer {
         }
     }
 
-    private String getProtectedUrl(String videoInfo) {
-        // TODO: 2019-10-07 implement
-        return null;
+    private boolean isSongProtected(String videoInfo) {
+        return videoInfo.contains(CONTAINS_CIPHER);
     }
 
     private String getNonProtectedUrl(String videoInfo) throws UnsupportedEncodingException {
@@ -44,9 +44,8 @@ class YoutubeSongDecipherer {
         return Util.decodeUrl(encodedUrl);
     }
 
-    private boolean isSongProtected(String videoInfo) {
-        // TODO: 2019-10-07 implementation
-        return false;
+    private String getProtectedUrl(String videoInfo) {
+        return decipherSongInfo(videoInfo);
     }
 
     private String decipherSongInfo(String videoInfo) {

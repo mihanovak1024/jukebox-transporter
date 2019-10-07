@@ -33,12 +33,12 @@ public class YoutubeSongFetcher implements NetworkDataFetcher<GoogleSheetData, Y
     }
 
     private YoutubeSongData downloadSong(GoogleSheetData googleSheetData) {
-        String songMP3FormatUrl = getSongMP4Url(googleSheetData);
-        YoutubeSongData downloadedSongData = downloadYoutubeSong(songMP3FormatUrl);
+        String videoMP4FormatUrl = getVideoMP4Url(googleSheetData);
+        YoutubeSongData downloadedSongData = downloadYoutubeSong(videoMP4FormatUrl);
         return downloadedSongData;
     }
 
-    private String getSongMP4Url(GoogleSheetData googleSheetData) {
+    private String getVideoMP4Url(GoogleSheetData googleSheetData) {
         String url = null;
         String videoId = YoutubeUrlUtils.getInstance().getVideoIdFromUrl(googleSheetData.getYoutubeVideoUrl());
         try {
