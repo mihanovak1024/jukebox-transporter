@@ -17,7 +17,7 @@
         <fasterxml.jackson>2.9.10</fasterxml.jackson>
         <retrofit2.retrofit>2.6.1</retrofit2.retrofit>
         <!-- test versions-->
-        <test.junit>4.12</test.junit>
+        <test.junit>4.13.1</test.junit>
         <test.mockito>3.0.0</test.mockito>
         <test.hamcrest>2.1</test.hamcrest>
     </properties>
