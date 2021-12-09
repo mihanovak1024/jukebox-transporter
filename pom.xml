@@ -14,7 +14,7 @@
         <google.api.client>1.23.0</google.api.client>
         <google.apis>v4-rev516-1.23.0</google.apis>
         <google.guava>27.1-jre</google.guava>
-        <fasterxml.jackson>2.9.10</fasterxml.jackson>
+        <fasterxml.jackson>2.9.10.8</fasterxml.jackson>
         <retrofit2.retrofit>2.6.1</retrofit2.retrofit>
         <!-- test versions-->
         <test.junit>4.12</test.junit>
